@@ -302,7 +302,7 @@ function print_data_box_app_mod(){//印出數值
    $("#buildForMod").html(`<strong>體格：</strong>${characterSheet.build}${isBuildMod()}`);
    $("#movForMod").html(`<strong>MOV：</strong>${characterSheet.mov}${isMovMod()}`);
    $("#luckForMod").html(`<strong>幸運：</strong>3D6x5 <span class="hvr-buzz" id="luckDice" style="display: inline-block" onclick="genLuck()"><i class="fas fa-dice"></i></span>`);
-   $("#mpForMod").html(`<strong>MP：</strong> ${characterSheet.mp}`);
+   $("#mpForMod").html(`<strong>MP：</strong>${characterSheet.mp}`);
 }
 var luckArray=[];
 var luckTatal=1;

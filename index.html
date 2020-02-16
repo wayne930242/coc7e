@@ -65,7 +65,7 @@
                <li>是否有其他限制條件</li>
           </ul>
      </div>
-          <div class="col-sm-4">
+     <div class="col-sm-4">
           <h2>1. 生成屬性</h2>
           <table class="table table-sm att-table" id="attTable">
                <thead class="thead-dark">
@@ -123,58 +123,54 @@
                     </tr>
                </tbody>
           </table>
+          <div class="input-group mb-3">
+               <div class="input-group-prepend">
+                    <label class="input-group-text" for="selector_att">選擇</label>
+                    <select class="custom-select" id="selector_att" onchange="selectAtt(this.options[this.selectedIndex].value)">
+                    <option selected>已生成屬性...</option>
+                    </select>
+               </div>
+          </div>
      </div>
      <div class="col-sm-5">
           <h2>2. 年齡調整</h2>
+          <p><strong>決定角色年齡：</strong><span id="selectedAge"></span></p>
+          <div style="margin-bottom:60px" class="noUiSlider" id="age-input"></div>
+          <p id="age_mod_text"></p>
+          <div id="age_mod_check" class="alert alert-danger" role="alert">年齡調整尚未完成。</div>
           <div class="row">
-               <div class="col-sm-12">
-                    <div class="input-group mb-3">
-                         <div class="input-group-prepend">
-                              <label class="input-group-text" for="selector_att">選擇</label>
-                              <select id="selector_att" onchange="selectAtt(this.options[this.selectedIndex].value)">
-                              <option selected>一組已生成屬性...</option>
-                              </select>
-                         </div>
-                    </div>
+               <div class="col-ms-12">
+                    <table class="data_box table table-borderless" id="data_box_age_mod">
+                         <tr>
+                              <td id="strForMod"></td>
+                              <td id="conForMod"></td>
+                              <td id="sizForMod"></td>
+                         </tr>
+                         <tr>
+                              <td id="dexForMod"></td>
+                              <td id="intForMod"></td>
+                              <td id="appForMod"></td>
+                         </tr>
+                         <tr>
+                              <td id="powForMod"></td>
+                              <td id="eduForMod"></td>
+                              <td id="sanForMod"></td>
+                         </tr>
+                         <tr>
+                              <td id="hpForMod"></td>
+                              <td id="dbForMod" colspan="2"></td>
+                         </tr>
+                         <tr>
+                              <td id="buildForMod"></td>
+                              <td id="movForMod"></td>
+                              <td id="luckForMod"></td>
+                         </tr>
+                         <tr>
+                              <td id="mpForMod"></td>
+                         </tr>
+                    </table>
                </div>
           </div>
-          <div class="row">
-               <div class="col-sm-12">
-                    <p><strong>決定角色年齡：</strong><span id="selectedAge"></span></p>
-                    <div style="margin-bottom:60px" class="noUiSlider" id="age-input"></div>
-                    <p id="age_mod_text"></p>
-                    <div id="age_mod_check" class="alert alert-danger" role="alert">年齡調整尚未完成。</div>
-               </div>
-          </div>
-          <table class="data_box talbe table-borderless table-sm table-responsive" id="data_box_age_mod">
-               <tr>
-                    <td id="strForMod"></td>
-                    <td id="conForMod"></td>
-                    <td id="sizForMod"></td>
-                    <td id="dexForMod"></td>
-                    <td id="intForMod"></td>
-               </tr>
-               <tr>
-                    <td id="appForMod"></td>
-                    <td id="powForMod"></td>
-                    <td id="eduForMod"></td>
-                    <td id="sanForMod"></td>
-                    <td id="hpForMod"></td>
-               </tr>
-               <tr>
-                    <td id="dbForMod" colspan="2"></td>
-                    <td id="buildForMod"></td>
-                    <td id="movForMod"></td>
-                    <td id="luckForMod"></td>
-               </tr>
-               <tr>
-                    <td id="mpForMod"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-               </tr>
-          </table>
      </div>
 </div>
 <div class="row">
