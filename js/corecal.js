@@ -537,7 +537,7 @@ function printOccuTable(){
                 <td scope="row">${oc.term}</td>
                 <td>${das}</td>
                 <td>${oc.text}</td>
-                <td>${oc.crFrom} - ${oc.crTo}</td>
+                <td style="text-align:center">${oc.crFrom} - ${oc.crTo}</td>
                 <td>${no}</td>
             </tr>`
         );

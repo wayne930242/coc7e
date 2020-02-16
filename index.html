@@ -130,9 +130,9 @@
                <div class="col-sm-12">
                     <div class="input-group mb-3">
                          <div class="input-group-prepend">
-                              <label class="input-group-text" for="selector_att">採用</label>
+                              <label class="input-group-text" for="selector_att">選擇</label>
                               <select id="selector_att" onchange="selectAtt(this.options[this.selectedIndex].value)">
-                              <option selected>選擇一組屬性...</option>
+                              <option selected>一組已生成屬性...</option>
                               </select>
                          </div>
                     </div>
@@ -187,7 +187,7 @@
                <input type="text" onchange="updateOcFilterTerm(this.id)" class="form-control" placeholder="職業關鍵字⋯" id="occuFilter" aria-label="Username" aria-describedby="basic-addon1">
           </div>
           <table id="occupationsTable" class="table table-sm table-striped table-hover">
-               <thead>
+               <thead class="thead-dark">
                     <tr>
                          <th style="width:15%">職業</th>
                          <th style="width:15%">屬性</th>

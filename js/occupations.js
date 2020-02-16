@@ -3492,7 +3492,7 @@ var occu= [{
     option9: ['克蘇魯神話'],
     subOption9: [],
     era1920: true,
-    note: 'KP 可決定是否開放<em class="skill">克蘇魯神話<em>最多 10%',
+    note: 'KP 可決定是否開放<strong class="skill">克蘇魯神話</strong>最多 10%',
     modern: true,
     gaslight: true,
     Lovecraftian: true
