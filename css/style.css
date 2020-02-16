@@ -2,8 +2,11 @@
     text-align: center;
     vertical-align: middle;
 }
-.att_input{
-    width: 80px;
+#attTable tr td{
+    text-align: center;
+    vertical-align: middle;
+}
+#attTable input{
     text-align: center;
     vertical-align: middle;
 }
