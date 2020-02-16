@@ -1,0 +1,9 @@
+.table .thead-dark th{
+    text-align: center;
+    vertical-align: middle;
+}
+.att_input{
+    width: 80px;
+    text-align: center;
+    vertical-align: middle;
+}

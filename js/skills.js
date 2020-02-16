@@ -1,0 +1,893 @@
+var skillsTrans = [{//技能翻譯表
+    skill: 'Accounting',
+    skillZhTw: '會計'
+}, {
+    skill: 'Acting',
+    skillZhTw: '演技'
+}, {
+    skill: 'Animal Handling',
+    skillZhTw: '掌控動物'
+}, {
+    skill: 'Anthropology',
+    skillZhTw: '人類學'
+}, {
+    skill: 'Appraise',
+    skillZhTw: '鑑定'
+}, {
+    skill: 'Archaeology',
+    skillZhTw: '考古學'
+}, {
+    skill: 'Art and Craft',
+    skillZhTw: '藝術/工藝'
+}, {
+    skill: 'Artillery',
+    skillZhTw: '炮術'
+}, {
+    skill: 'Astronomy',
+    skillZhTw: '天文學'
+}, {
+    skill: 'Axe',
+    skillZhTw: '斧'
+}, {
+    skill: 'Biology',
+    skillZhTw: '生物學'
+}, {
+    skill: 'Botany',
+    skillZhTw: '植物學'
+}, {
+    skill: 'Bow',
+    skillZhTw: '弓'
+}, {
+    skill: 'Brawl',
+    skillZhTw: '拳腳'
+}, {
+    skill: 'Chainsaw',
+    skillZhTw: '鏈鋸'
+}, {
+    skill: 'Charm',
+    skillZhTw: '魅力'
+}, {
+    skill: 'Chemistry',
+    skillZhTw: '化學'
+}, {
+    skill: 'Climb',
+    skillZhTw: '攀爬'
+}, {
+    skill: 'Computer Use',
+    skillZhTw: '電腦使用'
+}, {
+    skill: 'Credit Rating',
+    skillZhTw: '信用評級'
+}, {
+    skill: 'Cryptography',
+    skillZhTw: '密碼學'
+}, {
+    skill: 'Cthulhu Mythos',
+    skillZhTw: '克蘇魯神話'
+}, {
+    skill: 'Demolitions',
+    skillZhTw: '爆破'
+}, {
+    skill: 'Disguise',
+    skillZhTw: '偽裝'
+}, {
+    skill: 'Diving',
+    skillZhTw: '潛水'
+}, {
+    skill: 'Dodge',
+    skillZhTw: '閃避'
+}, {
+    skill: 'Drive Auto',
+    skillZhTw: '開車'
+}, {
+    skill: 'Electrical Repair',
+    skillZhTw: '電器維修'
+}, {
+    skill: 'Electronics',
+    skillZhTw: '電子學'
+}, {
+    skill: 'Fast Talk',
+    skillZhTw: '話術'
+}, {
+    skill: 'Fighting',
+    skillZhTw: '戰鬥'
+}, {
+    skill: 'Fine Art',
+    skillZhTw: '美術'
+}, {
+    skill: 'Firearms',
+    skillZhTw: '火器'
+}, {
+    skill: 'First Aid',
+    skillZhTw: '急救'
+}, {
+    skill: 'Flail',
+    skillZhTw: '鏈枷'
+}, {
+    skill: 'Flamethrower',
+    skillZhTw: '火焰噴射器'
+}, {
+    skill: 'Forensics',
+    skillZhTw: '鑑識學'
+}, {
+    skill: 'Forgery',
+    skillZhTw: '偽造文書'
+}, {
+    skill: 'Garrote',
+    skillZhTw: '絞具'
+}, {
+    skill: 'Geology',
+    skillZhTw: '地質學'
+}, {
+    skill: 'Handgun',
+    skillZhTw: '手槍'
+}, {
+    skill: 'Heavy Weapons',
+    skillZhTw: '重武器'
+}, {
+    skill: 'History',
+    skillZhTw: '歷史'
+}, {
+    skill: 'Hypnosis',
+    skillZhTw: '催眠'
+}, {
+    skill: 'Intimidate',
+    skillZhTw: '威脅'
+}, {
+    skill: 'Jump',
+    skillZhTw: '跳躍'
+}, {
+    skill: 'Language (Other)',
+    skillZhTw: '外語'
+}, {
+    skill: 'Language (Own)',
+    skillZhTw: '母語'
+}, {
+    skill: 'Law',
+    skillZhTw: '法律'
+}, {
+    skill: 'Library Use',
+    skillZhTw: '圖書館使用'
+}, {
+    skill: 'Listen',
+    skillZhTw: '聆聽'
+}, {
+    skill: 'Locksmith',
+    skillZhTw: '鎖匠'
+}, {
+    skill: 'Lore',
+    skillZhTw: '傳說'
+}, {
+    skill: 'Machine Gun',
+    skillZhTw: '機槍'
+}, {
+    skill: 'Mathematics',
+    skillZhTw: '數學'
+}, {
+    skill: 'Mechanical Repair',
+    skillZhTw: '機械維修'
+}, {
+    skill: 'Medicine',
+    skillZhTw: '醫藥'
+}, {
+    skill: 'Meteorology',
+    skillZhTw: '氣象學'
+}, {
+    skill: 'Natural World',
+    skillZhTw: '自然世界'
+}, {
+    skill: 'Navigate',
+    skillZhTw: '導航'
+}, {
+    skill: 'Occult',
+    skillZhTw: '神祕學'
+}, {
+    skill: 'Operate Heavy Machinery',
+    skillZhTw: '操作重機'
+}, {
+    skill: 'Persuade',
+    skillZhTw: '說服'
+}, {
+    skill: 'Pharmacy',
+    skillZhTw: '藥學'
+}, {
+    skill: 'Photography',
+    skillZhTw: '攝影'
+}, {
+    skill: 'Physics',
+    skillZhTw: '物理學'
+}, {
+    skill: 'Pilot',
+    skillZhTw: '駕駛'
+}, {
+    skill: 'Psychoanalysis',
+    skillZhTw: '精神分析'
+}, {
+    skill: 'Psychology',
+    skillZhTw: '心理學'
+}, {
+    skill: 'Read Lips',
+    skillZhTw: '讀唇'
+}, {
+    skill: 'Ride',
+    skillZhTw: '騎術'
+}, {
+    skill: 'Rifle',
+    skillZhTw: '步槍'
+}, {
+    skill: 'Science',
+    skillZhTw: '科學'
+}, {
+    skill: 'Shotgun',
+    skillZhTw: '霰彈槍'
+}, {
+    skill: 'Sleight of Hand',
+    skillZhTw: '巧手'
+}, {
+    skill: 'Spear',
+    skillZhTw: '矛'
+}, {
+    skill: 'Spot Hidden',
+    skillZhTw: '識破'
+}, {
+    skill: 'Stealth',
+    skillZhTw: '匿蹤'
+}, {
+    skill: 'Submachine Gun',
+    skillZhTw: '衝鋒槍'
+}, {
+    skill: 'Survival',
+    skillZhTw: '生存'
+}, {
+    skill: 'Sword',
+    skillZhTw: '劍'
+}, {
+    skill: 'Swim',
+    skillZhTw: '游泳'
+}, {
+    skill: 'Throw',
+    skillZhTw: '投擲'
+}, {
+    skill: 'Track',
+    skillZhTw: '追蹤'
+}, {
+    skill: 'Whip',
+    skillZhTw: '鞭'
+}, {
+    skill: 'Zoology',
+    skillZhTw: '動物學'
+}];
+var skills = {//年代技能表
+    modern: [{
+        skillZhTw: '會計',
+        basic: 5,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '人類學',
+        basic: 1,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '鑑定',
+        basic: 5,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '考古學',
+        basic: 1,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '藝術/工藝',
+        basic: 5,
+        sub: 'TRUE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '藝術/工藝',
+        basic: 5,
+        sub: 'TRUE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '藝術/工藝',
+        basic: 5,
+        sub: 'TRUE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '魅力',
+        basic: 15,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '攀爬',
+        basic: 20,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '電腦使用',
+        basic: 5,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '信用評級',
+        basic: 0,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '克蘇魯神話',
+        basic: 0,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '偽裝',
+        basic: 5,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '閃避',
+        basic: 'DEX / 2',
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '開車',
+        basic: 20,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '電器維修',
+        basic: 10,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '電子學',
+        basic: 1,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '話術',
+        basic: 5,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: ['戰鬥','鬥毆'],
+        basic: 25,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '戰鬥',
+        basic: 0,
+        sub: 'TRUE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '戰鬥',
+        basic: 0,
+        sub: 'TRUE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: ['火器','手槍'],
+        basic: 20,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: ['火器','步槍/霰彈槍'],
+        basic: 25,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '火器',
+        basic: 0,
+        sub: 'TRUE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '急救',
+        basic: 30,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '歷史',
+        basic: 5,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '威脅',
+        basic: 15,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '跳躍',
+        basic: 20,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '外語',
+        basic: 1,
+        sub: 'TRUE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '外語',
+        basic: 1,
+        sub: 'TRUE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '外語',
+        basic: 1,
+        sub: 'TRUE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '母語',
+        basic: 'EDU',
+        sub: 'TRUE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '法律',
+        basic: 5,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '圖書館使用',
+        basic: 20,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '聆聽',
+        basic: 20,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '鎖匠',
+        basic: 1,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '機械維修',
+        basic: 10,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '醫藥',
+        basic: 1,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '自然世界',
+        basic: 10,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '導航',
+        basic: 10,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '神秘學',
+        basic: 5,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '操作重機',
+        basic: 1,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '說服',
+        basic: 10,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '駕駛',
+        basic: 1,
+        sub: 'TRUE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '心理學',
+        basic: 10,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '精神分析',
+        basic: 1,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '科學',
+        basic: 1,
+        sub: 'TRUE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '科學',
+        basic: 1,
+        sub: 'TRUE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '科學',
+        basic: 1,
+        sub: 'TRUE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '巧手',
+        basic: 10,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '識破',
+        basic: 25,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '隱匿',
+        basic: 20,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '生存',
+        basic: 10,
+        sub: 'TRUE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '游泳',
+        basic: 20,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '投擲',
+        basic: 20,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '追蹤',
+        basic: 10,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '掌控動物',
+        basic: 5,
+        sub: 'FALSE',
+        common: 'FALSE'
+    }, {
+        skillZhTw: '炮術',
+        basic: 1,
+        sub: 'FALSE',
+        common: 'FALSE'
+    }, {
+        skillZhTw: '爆破',
+        basic: 1,
+        sub: 'FALSE',
+        common: 'FALSE'
+    }, {
+        skillZhTw: '潛水',
+        basic: 1,
+        sub: 'FALSE',
+        common: 'FALSE'
+    }, {
+        skillZhTw: '催眠',
+        basic: 1,
+        sub: 'FALSE',
+        common: 'FALSE'
+    }, {
+        skillZhTw: '讀唇',
+        basic: 1,
+        sub: 'FALSE',
+        common: 'FALSE'
+    }, {
+        skillZhTw: '騎術',
+        basic: 5,
+        sub: 'FALSE',
+        common: 'FALSE'
+    }, {
+        skillZhTw: '傳說',
+        basic: 1,
+        sub: 'TRUE',
+        common: 'FALSE'
+    }],
+    era1920: [{
+        skillZhTw: '會計',
+        basic: 5,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '人類學',
+        basic: 1,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '鑑定',
+        basic: 5,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '考古學',
+        basic: 1,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '藝術/工藝',
+        basic: 5,
+        sub: 'TRUE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '藝術/工藝',
+        basic: 5,
+        sub: 'TRUE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '藝術/工藝',
+        basic: 5,
+        sub: 'TRUE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '魅力',
+        basic: 15,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '攀爬',
+        basic: 20,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '信用評級',
+        basic: 0,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '克蘇魯神話',
+        basic: 0,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '偽裝',
+        basic: 5,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '閃避',
+        basic: 'DEX / 2',
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '開車',
+        basic: 20,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '電器維修',
+        basic: 10,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '話術',
+        basic: 5,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: ['戰鬥','鬥毆'],
+        basic: 25,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '戰鬥',
+        basic: 0,
+        sub: 'TRUE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '戰鬥',
+        basic: 0,
+        sub: 'TRUE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: ['火器','手槍'],
+        basic: 20,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: ['火器','步槍/霰彈槍'],
+        basic: 25,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '火器',
+        basic: 0,
+        sub: 'TRUE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '急救',
+        basic: 30,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '歷史',
+        basic: 5,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '威脅',
+        basic: 15,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '跳躍',
+        basic: 20,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '外語',
+        basic: 1,
+        sub: 'TRUE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '外語',
+        basic: 1,
+        sub: 'TRUE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '外語',
+        basic: 1,
+        sub: 'TRUE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '母語',
+        basic: 'EDU',
+        sub: 'TRUE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '法律',
+        basic: 5,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '圖書館使用',
+        basic: 20,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '聆聽',
+        basic: 20,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '鎖匠',
+        basic: 1,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '機械維修',
+        basic: 10,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '醫藥',
+        basic: 1,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '自然世界',
+        basic: 10,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '導航',
+        basic: 10,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '神秘學',
+        basic: 5,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '操作重機',
+        basic: 1,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '說服',
+        basic: 10,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '駕駛',
+        basic: 1,
+        sub: 'TRUE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '心理學',
+        basic: 10,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '精神分析',
+        basic: 1,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '騎術',
+        basic: 5,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '科學',
+        basic: 1,
+        sub: 'TRUE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '科學',
+        basic: 1,
+        sub: 'TRUE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '科學',
+        basic: 1,
+        sub: 'TRUE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '巧手',
+        basic: 10,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '識破',
+        basic: 25,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '隱匿',
+        basic: 20,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '生存',
+        basic: 10,
+        sub: 'TRUE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '游泳',
+        basic: 20,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '投擲',
+        basic: 20,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '追蹤',
+        basic: 10,
+        sub: 'FALSE',
+        common: 'TRUE'
+    }, {
+        skillZhTw: '掌控動物',
+        basic: 5,
+        sub: 'FALSE',
+        common: 'FALSE'
+    }, {
+        skillZhTw: '炮術',
+        basic: 1,
+        sub: 'FALSE',
+        common: 'FALSE'
+    }, {
+        skillZhTw: '爆破',
+        basic: 1,
+        sub: 'FALSE',
+        common: 'FALSE'
+    }, {
+        skillZhTw: '潛水',
+        basic: 1,
+        sub: 'FALSE',
+        common: 'FALSE'
+    }, {
+        skillZhTw: '催眠',
+        basic: 1,
+        sub: 'FALSE',
+        common: 'FALSE'
+    }, {
+        skillZhTw: '讀唇',
+        basic: 1,
+        sub: 'FALSE',
+        common: 'FALSE'
+    }, {
+        skillZhTw: '傳說',
+        basic: 1,
+        sub: 'TRUE',
+        common: 'FALSE'
+    }]
+};
