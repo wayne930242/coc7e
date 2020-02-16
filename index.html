@@ -54,23 +54,24 @@
 </div>
 
 <div class="row">
-     <div class="col-sm-6">
+     <div class="col-sm-3">
           <h2>0. 前置作業</h2>
           <p>與你的守密人確認以下資訊：</p>
           <ul>
                <li>場景的年代或日期： <select id="selector_era" onchange="selectVersion(this.options[this.selectedIndex].value)"><option value='era1920'>1920 年代</option><option value='modern'>現代</option></select></li>
                <li>遊戲設定的位置或國家</li>
-               <li>是否有推薦的職業或導入</li>
-               <li>關於探索者如何認識彼此的建議</li>
+               <li>推薦的職業或導入</li>
+               <li>調查員是否認識</li>
                <li>是否有其他限制條件</li>
-               <li>屬性產生的規則（擲骰或 460 點購點）</li>
           </ul>
+     </div>
+          <div class="col-sm-4">
           <h2>1. 生成屬性</h2>
-          <table class="table table-sm table-responsive att-table">
+          <table class="table table-sm att-table" id="attTable">
                <thead class="thead-dark">
                     <tr>
                          <th>屬性</th>
-                         <th style="width:100px"><span class="hvr-buzz" id="attDice"><i class="fas fa-dice"></i></span></th>
+                         <th><span class="hvr-buzz" id="attDice"><i class="fas fa-dice"></i></span></th>
                          <th>購點</th>
                     </tr>
                </thead>
@@ -123,10 +124,10 @@
                </tbody>
           </table>
      </div>
-     <div class="col-sm-6">
+     <div class="col-sm-5">
           <h2>2. 年齡調整</h2>
           <div class="row">
-               <div class="col-sm-6">
+               <div class="col-sm-12">
                     <div class="input-group mb-3">
                          <div class="input-group-prepend">
                               <label class="input-group-text" for="selector_att">採用</label>
