@@ -298,7 +298,7 @@ function print_data_box_app_mod(){//印出數值
    $("#eduForMod").html(`<strong>EDU</strong> ${edu} ${isMod('edu')}${eduDepInit()}`);
    $("#sanForMod").html(`<strong>SAN</strong> ${pow} `);
    $("#hpForMod").html(`<strong>HP</strong> ${characterSheet.hp} `);
-   $("#dbForMod").html(`<strong>傷害加成（DB）：</strong>${characterSheet.db}${isDbMod()}`);
+   $("#dbForMod").html(`<strong>傷害加成：</strong>${characterSheet.db}${isDbMod()}`);
    $("#buildForMod").html(`<strong>體格：</strong>${characterSheet.build}${isBuildMod()}`);
    $("#movForMod").html(`<strong>MOV：</strong>${characterSheet.mov}${isMovMod()}`);
    $("#luckForMod").html(`<strong>幸運：</strong>3D6x5 <span class="hvr-buzz" id="luckDice" style="display: inline-block" onclick="genLuck()"><i class="fas fa-dice"></i></span>`);
@@ -457,7 +457,7 @@ function ageModCal(att, value=0){
     characterSheet.mov=ageModRow.mov? movCal(str, dex, siz)+ageModRow.mov: movCal(str, dex, siz);
     characterSheet.mp=Math.floor(pow/5);
     characterSheet.hp=Math.floor((con+siz)/10);
-    $("#dbForMod").html(`<strong>傷害加成（DB）：</strong>${characterSheet.db}${isDbMod()}`);
+    $("#dbForMod").html(`<strong>傷害加成：</strong>${characterSheet.db}${isDbMod()}`);
     $("#buildForMod").html(`<strong>體格：</strong>${characterSheet.build}${isBuildMod()}`);
     $("#buildForMod").html(`<strong>MOV：</strong>${characterSheet.mov}${isMovMod()}`);
     $("#mpForHp").html(`<strong>HP</strong> ${characterSheet.hp} `);
