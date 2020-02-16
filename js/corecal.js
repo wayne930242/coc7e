@@ -560,7 +560,6 @@ function occuFilter(filter=ocFilter){
     var conditions={era1920: version=='era1920',modern: version=='modern', gaslight: version=='gaslight'};
     filteredOccu=[];
     occu.forEach((item)=>{
-        console.log(item);
         if((conditions.era1920 && item.era1920) || (conditions.modern && item.modern) || (conditions.gaslight && item.gaslight)){
             fit = true;
             if(!filter.att==[]){
@@ -588,18 +587,15 @@ function occuFilter(filter=ocFilter){
                 for (let ele of filter.term){
                     if(!Array.from(item.term).includes(ele)){c=false};
                 }
-                console.log('c',c);
                 if(!c){
                 fit = false;
                 }
             }
-            console.log('fit',fit);
             }
             if(fit){
                 filteredOccu.push(item);
                 filteredOccu = filteredOccu.filter(item=>item.crFrom>=filter.crFrom);
                 filteredOccu = filteredOccu.filter(item=>item.crTo<=filter.crTo);
-                console.log('push');
             }
     });
     printOccuTable();
