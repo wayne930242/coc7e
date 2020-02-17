@@ -1,15 +1,17 @@
+@import "../bootstrap/scss/bootstrap.scss";
+
 .table .thead-dark th{
     text-align: center;
     vertical-align: middle;
-};
+}
 #attTable tr td{
     text-align: center;
     vertical-align: middle;
-};
+}
 #attTable input{
     text-align: center;
     vertical-align: middle;
-};
+}
 #occupationsTable .occSelect{
-    background: black;
-};
+    background: #17a2b8;
+}

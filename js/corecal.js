@@ -464,6 +464,14 @@ function ageModCal(att, value=0){
     characterSheet.mov=ageModRow.mov? movCal(str, dex, siz)+ageModRow.mov: movCal(str, dex, siz);
     characterSheet.mp=Math.floor(pow/5);
     characterSheet.hp=Math.floor((con+siz)/10);
+    characterSheet.str=str,
+    characterSheet.con=con;
+    characterSheet.siz=siz;
+    characterSheet.dex=dex;
+    characterSheet.app=app;
+    characterSheet.int=int;
+    characterSheet.pow=pow;
+    characterSheet.edu=edu;
     if(att_selected){
         $("#dbForMod").html(`<strong>傷害加成：</strong>${characterSheet.db}${isDbMod()}`);
         $("#buildForMod").html(`<strong>體格：</strong>${characterSheet.build}${isBuildMod()}`);
@@ -540,10 +548,16 @@ function printOccuTable(){
             if(oc['POW'] != 0){da.push('POW')};
             if(oc['INT'] != 0){da.push('INT')};
         }
-        var das = da.join(' 或 ');
+        var occuSelect = oc.term == characterSheet.occupation ? ` class="occuSelect"` :'';
+        var das = '';
+        if(oc.EDU==4){
+            das = `EDU x4`;
+        } else {
+            das = da.join(' 或 ') +` x2 `+ `加 EDU x2` ;
+        }
         $("#occupationsTable > tbody").append(
-            `<tr>
-                <td id="${oc.term}" scope="row">${oc.term}</td>
+            `<tr${occuSelect}>
+                <td class="occuTerm" id="${oc.term}" scope="row">${oc.term}</td>
                 <td>${das}</td>
                 <td>${oc.text}</td>
                 <td style="text-align:center">${oc.crFrom} - ${oc.crTo}</td>
@@ -552,6 +566,7 @@ function printOccuTable(){
         );
     }
 }
+
 var ocFilter={
     att: [],
     skills: [],
@@ -612,23 +627,59 @@ function occuFilter(filter=ocFilter){
 $(document).ready(function (){
     $("#occupationsTable").on('click', 'tbody tr', function(event){
         $(this).addClass('occSelect').siblings().removeClass('occSelect');
-        console.log(this);
+        var id = $(this).find('.occuTerm').attr('id');
+        occuSelect(id);
     });
 });
 function occuSelect(x=''){
+    var ocTerm='';
+    var ocAtt='';
+    var ocSkills='';
+    var ocCR='';
+    var ocNote='';
+    var ocAtt = '';
+    var sp= 0;
+    var sps='';
+    var a=[];
     if(x){
         characterSheet.occupation=x;
         filteredOccu.forEach((item)=>{
             if(item.term == characterSheet.occupation){
+                var da=[];
                 occupationSkills.push([item.option1,item.subOption1],[item.option2,item.subOption2],[item.option3,item.subOption3],[item.option4,item.subOption4],[item.option5,item.subOption5],[item.option6,item.subOption6],[item.option7,item.subOption7],[item.option8,item.subOption8],[item.option9,item.subOption9]);
                 characterSheet.crFrom=item.crFrom;
                 characterSheet.crFrom=item.crTo;
                 occuText=item.text;
+                ocTerm=item.term;
+                console.log(characterSheet);
+                if(item.EDU!=4){
+                    if(item['STR'] != 0){da.push('STR');a.push(characterSheet.str);}
+                    if(item['CON'] != 0){da.push('CON');a.push(characterSheet.con);};
+                    if(item['DEX'] != 0){da.push('DEX');a.push(characterSheet.dex);};
+                    if(item['SIZ'] != 0){da.push('SIZ');a.push(characterSheet.siz);};
+                    if(item['APP'] != 0){da.push('APP');a.push(characterSheet.app);};
+                    if(item['POW'] != 0){da.push('POW');a.push(characterSheet.pow);};
+                    if(item['INT'] != 0){da.push('INT');a.push(characterSheet.int);};
+                }
+                sp= Math.max(...a);
+                if(oc.EDU==4){
+                    ocAtt = `EDU x4`;
+                    sp = characterSheet['edu'] * 4;
+                } else {
+                    ocAtt = da.join(' 或 ') + ` x2 ` + `加 EDU x2`;
+                    sp * 2 + characterSheet['edu'] *2;
+                }
+                sps= `，共 ${sp} 點`;
+                ocNote = item.note? item.note : '';
+                ocCR = item.crFrom + "-" + item.crTo;
+                ocSkills = item.text;
             }
         });
     }
     characterSheet.occupationSkills=occupationSkills;
-    console.log(characterSheet);
+    $("#selectOccuTable").html(`
+        ${ocTerm}。<strong>職業技能</strong>：${ocSkills}（<strong>職業技能點數為</strong>${ocAtt}${sps}），CR 的範圍為「${ocCR}」。<strong>備註</strong>：${ocNote}。`
+    );
 }
 // 分配技能
 var skillsAssign=skillInit(skills[era]);

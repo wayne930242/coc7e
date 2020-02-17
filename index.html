@@ -75,47 +75,47 @@
                </thead>
                <tbody>
                     <tr>
-                         <td scope="row">STR</td>
+                         <td>STR</td>
                          <td><div id = "str">3D6 x5</div></td>
                          <td><input type="text" id="str_keyin" class="form-control-sm form-control att_input" onchange="updateAtt(this.id)"></td>
                     </tr>
                     <tr>
-                         <td scope="row">CON</td>
+                         <td>CON</td>
                          <td><div id = "con">3D6 x5</div></td>
                          <td><input type="text" id="con_keyin" class="form-control-sm form-control att_input" onchange="updateAtt(this.id)"></td>
                     </tr>
                     <tr>
-                         <td scope="row">SIZ</td>
+                         <td>SIZ</td>
                          <td><div id = "siz">2D6+6 x5</div></td>
                          <td><input type="text" id="siz_keyin" class="form-control-sm form-control att_input" onchange="updateAtt(this.id)"></td>
                     </tr>
                     <tr>
-                         <td scope="row">DEX</td>
+                         <td>DEX</td>
                          <td><div id = "dex">3D6 x5</div></td>
                          <td><input type="text" id="dex_keyin" class="form-control-sm form-control att_input" onchange="updateAtt(this.id)"></td>
                     </tr>
                     <tr>
-                         <td scope="row">INT</td>
+                         <td>INT</td>
                          <td><div id = "int">2D6+6 x5</div></td>
                          <td><input type="text" id="int_keyin" class="form-control-sm form-control att_input" onchange="updateAtt(this.id)"></td>
                     </tr>
                     <tr>
-                         <td scope="row">APP</td>
+                         <td>APP</td>
                          <td><div id = "app">3D6 x5</div></td>
                          <td><input type="text" id="app_keyin" class="form-control-sm form-control att_input" onchange="updateAtt(this.id)"></td>
                     </tr>
                     <tr>
-                         <td scope="row">POW</td>
+                         <td>POW</td>
                          <td><div id = "pow">3D6 x5</div></td>
                          <td><input type="text" id="pow_keyin" class="form-control-sm form-control att_input" onchange="updateAtt(this.id)"></td>
                     </tr>
                     <tr>
-                         <td scope="row">EDU</td>
+                         <td>EDU</td>
                          <td><div id = "edu">2D6+6 x5</div></td>
                          <td><input type="text" id="edu_keyin" class="form-control-sm form-control att_input" onchange="updateAtt(this.id)"></td>
                     </tr>
                     <tr class="table-secondary">
-                         <td scope="row"><strong>＃</strong></td>
+                         <td><strong>＃</strong></td>
                          <td><div id="dice_count"></div></td>
                          <td><div id="att_sum"></div></td>
                     </tr>
@@ -164,20 +164,60 @@
 <div class="row">
      <div class="col-sm-12">
           <h2>3. 決定職業</h2>
-          <div class="input-group mb-3">
-               <div class="input-group-prepend">
-                    <span class="input-group-text">搜尋職業</span>
+          <div class="row">
+               <div class="col-sm-6">
+                    <div class="input-group mb-3">
+                         <div class="input-group-prepend">
+                              <span class="input-group-text">搜尋職業</span>
+                         </div>
+                         <input type="text" onchange="updateOcFilterTerm(this.id)" class="form-control" placeholder="輸入關鍵字後按「Enter」" id="occuFilter" aria-label="Username" aria-describedby="basic-addon1">
+                    </div>
                </div>
-               <input type="text" onchange="updateOcFilterTerm(this.id)" class="form-control" placeholder="輸入關鍵字後按「Enter」" id="occuFilter" aria-label="Username" aria-describedby="basic-addon1">
+               <div class="col-sm-6">
+                    <div id="selectOccuTable">
+                    </div>
+               </div>
           </div>
-          <table id="occupationsTable" class="table table-smr">
+          <div class="row" id="filter" style="display:none">
+               <div class="col-sm-1">
+                    <div id="attFilter">
+                         <div class="form-check">
+                              <input class="form-check-input" type="checkbox" value="STR" id="filterSTR">
+                              <label class="form-check-label" for="filterSTR">STR</label>
+                         </div>
+                         <div class="form-check">
+                              <input class="form-check-input" type="checkbox" value="DEX" id="filterDEX">
+                              <label class="form-check-label" for="filterDEX">DEX</label>
+                         </div>
+                         <div class="form-check">
+                              <input class="form-check-input" type="checkbox" value="APP" id="filterAPP">
+                              <label class="form-check-label" for="filterAPP">APP</label>
+                         </div>
+                         <div class="form-check">
+                              <input class="form-check-input" type="checkbox" value="POW" id="filterPOW">
+                              <label class="form-check-label" for="filterPOW">POW</label>
+                         </div>
+                         <div class="form-check">
+                              <input class="form-check-input" type="checkbox" value="empty" id="filterEDU">
+                              <label class="form-check-label" for="filterEDU">只有 EDU</label>
+                         </div>
+                    </div>
+               </div>
+               <div class="col-sm-2">
+               </div>
+               <div class="col-sm-2">
+               </div>
+               <div class="col-sm-4">
+               </div>
+          </div>
+          <table id="occupationsTable" class="table table-smr table-striped">
                <thead class="thead-dark">
                     <tr>
                          <th style="width:15%">職業</th>
                          <th style="width:15%">屬性</th>
                          <th style="width:40%">職業技能</th>
-                         <th style="width:10%">CR</th>
-                         <th style="width:20%">備註</th>
+                         <th style="width:12%">CR</th>
+                         <th style="width:18%">備註</th>
                     </tr>
                </thead>
                <tbody>
