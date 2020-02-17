@@ -40,7 +40,6 @@
      <script src="./js/rpgbasic.js"></script> 
      <script src="./js/corecal.js"></script>
      <link rel="stylesheet" href="./css/style.css">
-
 </head>
 <body>
 
@@ -116,7 +115,7 @@
                          <td><input type="text" id="edu_keyin" class="form-control-sm form-control att_input" onchange="updateAtt(this.id)"></td>
                     </tr>
                     <tr class="table-secondary">
-                         <td scope="row"><strong>計算器</strong></td>
+                         <td scope="row"><strong>＃</strong></td>
                          <td><div id="dice_count"></div></td>
                          <td><div id="att_sum"></div></td>
                     </tr>
@@ -138,34 +137,26 @@
           <p id="age_mod_text"></p>
           <div id="age_mod_check" class="alert alert-danger" role="alert">年齡調整尚未完成。</div>
           <div class="row">
-               <div class="col-ms-12">
-                    <table class="data_box table table-borderless" id="data_box_age_mod">
-                         <tr>
-                              <td id="strForMod"></td>
-                              <td id="conForMod"></td>
-                              <td id="sizForMod"></td>
-                         </tr>
-                         <tr>
-                              <td id="dexForMod"></td>
-                              <td id="intForMod"></td>
-                              <td id="appForMod"></td>
-                         </tr>
-                         <tr>
-                              <td id="powForMod"></td>
-                              <td id="eduForMod"></td>
-                              <td id="sanForMod"></td>
-                         </tr>
-                         <tr>
-                              <td id="hpForMod"></td>
-                              <td id="dbForMod"></td>
-                              <td id="buildForMod"></td>
-                         </tr>
-                         <tr>
-                              <td id="movForMod"></td>
-                              <td id="luckForMod"></td>
-                              <td id="mpForMod"></td>
-                         </tr>
-                    </table>
+               <div id="data_box_age_mod" class="col-4">
+                    <div id="strForMod"></div>
+                    <div id="dexForMod"></div>
+                    <div id="powForMod"></div>
+                    <div id="hpForMod"></div>
+                    <div id="movForMod"></div>
+               </div>
+               <div id="data_box_age_mod" class="col-4">
+                    <div id="conForMod"></div>
+                    <div id="intForMod"></div>
+                    <div id="eduForMod"></div>
+                    <div id="dbForMod"></div>
+                    <div id="luckForMod"></div>
+               </div>
+               <div id="data_box_age_mod" class="col-4">
+                    <div id="sizForMod"></div>
+                    <div id="appForMod"></div>
+                    <div id="sanForMod"></div>
+                    <div id="buildForMod"></div>
+                    <div id="mpForMod"></div>
                </div>
           </div>
      </div>
@@ -179,7 +170,7 @@
                </div>
                <input type="text" onchange="updateOcFilterTerm(this.id)" class="form-control" placeholder="輸入關鍵字後按「Enter」" id="occuFilter" aria-label="Username" aria-describedby="basic-addon1">
           </div>
-          <table id="occupationsTable" class="table table-sm table-striped table-hover">
+          <table id="occupationsTable" class="table table-smr">
                <thead class="thead-dark">
                     <tr>
                          <th style="width:15%">職業</th>

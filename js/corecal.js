@@ -169,7 +169,7 @@ $(document).ready(function(){//更新屬性擲骰結果
         $("#pow").html(`${characterSheetTemp.attribute[roll_count].pow}`);
         $("#edu").html(`${characterSheetTemp.attribute[roll_count].edu}`);
         roll_count++;
-        $("#dice_count").html(`第 ${roll_count} 次擲骰`);
+        $("#dice_count").html(`第 ${roll_count} 次`);
         $("#selector_att").append(`<option value="${roll_count-1}">第 ${roll_count} 次擲骰</option>`);
     });
 });
@@ -232,10 +232,12 @@ function selectAtt(x){// 選擇器
     }
 }
 // 年齡調整
+var age0 = 20;
 var modTarget=0;
 var fifteen=false;
 var ageModRow={};
 var eduDepDice=0;
+var sAge = 20;
 $(document).ready(function(){
     var ageSlider = document.getElementById('age-input');
     noUiSlider.create(ageSlider, {
@@ -255,10 +257,10 @@ $(document).ready(function(){
             mode: 'range',
         }
     });
-    ageSlider.noUiSlider.on('set' ,function(){ageMod(Math.floor(ageSlider.noUiSlider.get()))});
+    ageSlider.noUiSlider.on('set' ,function(){sAge=Math.floor(ageSlider.noUiSlider.get())});
+    ageSlider.noUiSlider.on('set' ,function(){ageMod(sAge)});
 });
-var age0 = 0;
-function ageMod(age=20){//年齡調整計算
+function ageMod(age=age0){//年齡調整計算
     ageModRow = age >= 80 ? ageModTable.filter(function(item){return item.age==80;}) : ageModTable.filter(function(item){return item.age[0]<=age && item.age[1]>=age;});
     if(age0!=age){age0=age;$("#selectedAge").html(` ${age} 歲`);}
     ageModRow = ageModRow[0];
@@ -270,6 +272,9 @@ function ageMod(age=20){//年齡調整計算
     app=app0 + ageModRow.app;
     pow=pow0;
     edu=edu0 + ageModRow.edu;
+    db0=dbCal(str0,siz0).db;
+    build0=dbCal(str0,siz0).build;
+    mov0=movCal(str0, dex0, siz0);
     fifteen = ageModRow.age==15 ? true : false;
     luckTatal = ageModRow.luck;
     characterSheet.age=age;
@@ -281,28 +286,30 @@ function ageMod(age=20){//年齡調整計算
     luckArray=[];
     characterSheet.luck=0;
     modCheck={attReduce:false, eduDep:false, luckRoll:false};
-    if(att_selected){print_data_box_app_mod()};
+    print_data_box_app_mod();
     ageModCal('str');
     ageModCal('con');
     ageModCal('siz');
     ageModCal('dex');
 }
 function print_data_box_app_mod(){//印出數值
-   $("#strFormod").html(`<strong>STR</strong> ${str} `);
-   $("#conForMod").html(`<strong>CON</strong> ${con} `);
-   $("#sizForMod").html(`<strong>SIZ</strong> ${siz} `);
-   $("#dexForMod").html(`<strong>DEX</strong> ${dex} `);
-   $("#intForMod").html(`<strong>INT</strong> ${int} `);
-   $("#appForMod").html(`<strong>APP</strong> ${app} ${isMod('app')}`);
-   $("#powForMod").html(`<strong>POW</strong> ${pow} `);
-   $("#eduForMod").html(`<strong>EDU</strong> ${edu} ${isMod('edu')}${eduDepInit()}`);
-   $("#sanForMod").html(`<strong>SAN</strong> ${pow} `);
-   $("#hpForMod").html(`<strong>HP</strong> ${characterSheet.hp} `);
-   $("#dbForMod").html(`<strong>傷害加成：</strong>${characterSheet.db}${isDbMod()}`);
-   $("#buildForMod").html(`<strong>體格：</strong>${characterSheet.build}${isBuildMod()}`);
-   $("#movForMod").html(`<strong>MOV：</strong>${characterSheet.mov}${isMovMod()}`);
-   $("#luckForMod").html(`<strong>幸運：</strong>3D6x5 <span class="hvr-buzz" id="luckDice" style="display: inline-block" onclick="genLuck()"><i class="fas fa-dice"></i></span>`);
-   $("#mpForMod").html(`<strong>MP：</strong>${characterSheet.mp}`);
+    if(att_selected){
+        $("#strFormod").html(`<strong>STR</strong> ${str} `);
+        $("#conForMod").html(`<strong>CON</strong> ${con} `);
+        $("#sizForMod").html(`<strong>SIZ</strong> ${siz} `);
+        $("#dexForMod").html(`<strong>DEX</strong> ${dex} `);
+        $("#intForMod").html(`<strong>INT</strong> ${int} `);
+        $("#appForMod").html(`<strong>APP</strong> ${app} ${isMod('app')}`);
+        $("#powForMod").html(`<strong>POW</strong> ${pow} `);
+        $("#eduForMod").html(`<strong>EDU</strong> ${edu} ${isMod('edu')}${eduDepInit()}`);
+        $("#sanForMod").html(`<strong>SAN</strong> ${pow} `);
+        $("#hpForMod").html(`<strong>HP</strong> ${characterSheet.hp} `);
+        $("#dbForMod").html(`<strong>傷害加成：</strong>${characterSheet.db}${isDbMod()}`);
+        $("#buildForMod").html(`<strong>體格：</strong>${characterSheet.build}${isBuildMod()}`);
+        $("#movForMod").html(`<strong>MOV：</strong>${characterSheet.mov}${isMovMod()}`);
+        $("#luckForMod").html(`<strong>幸運：</strong>3D6x5 <span class="hvr-buzz" id="luckDice" style="display: inline-block" onclick="genLuck()"><i class="fas fa-dice"></i></span>`);
+        $("#mpForMod").html(`<strong>MP：</strong>${characterSheet.mp}`);
+    }
 }
 var luckArray=[];
 var luckTatal=1;
@@ -457,15 +464,17 @@ function ageModCal(att, value=0){
     characterSheet.mov=ageModRow.mov? movCal(str, dex, siz)+ageModRow.mov: movCal(str, dex, siz);
     characterSheet.mp=Math.floor(pow/5);
     characterSheet.hp=Math.floor((con+siz)/10);
-    $("#dbForMod").html(`<strong>傷害加成：</strong>${characterSheet.db}${isDbMod()}`);
-    $("#buildForMod").html(`<strong>體格：</strong>${characterSheet.build}${isBuildMod()}`);
-    $("#buildForMod").html(`<strong>MOV：</strong>${characterSheet.mov}${isMovMod()}`);
-    $("#mpForHp").html(`<strong>HP</strong> ${characterSheet.hp} `);
-    $("#strForMod").html(`<strong>STR</strong> ${str} ${isMod('str')}${arrowDownDown('str')}${arrowUpUp('str')}${arrowDown('str')}${arrowUp('str')}`);
-    $("#conForMod").html(`<strong>CON</strong> ${con} ${isMod('con')}${arrowDownDown('con')}${arrowUpUp('con')}${arrowDown('con')}${arrowUp('con')}`);
-    $("#sizForMod").html(`<strong>SIZ</strong> ${siz} ${isMod('siz')}${arrowDownDown('siz')}${arrowUpUp('siz')}${arrowDown('siz')}${arrowUp('siz')}`);
-    $("#dexForMod").html(`<strong>DEX</strong> ${dex} ${isMod('dex')}${arrowDownDown('dex')}${arrowUpUp('dex')}${arrowDown('dex')}${arrowUp('dex')}`);
-    checkMod();
+    if(att_selected){
+        $("#dbForMod").html(`<strong>傷害加成：</strong>${characterSheet.db}${isDbMod()}`);
+        $("#buildForMod").html(`<strong>體格：</strong>${characterSheet.build}${isBuildMod()}`);
+        $("#buildForMod").html(`<strong>MOV：</strong>${characterSheet.mov}${isMovMod()}`);
+        $("#mpForHp").html(`<strong>HP</strong> ${characterSheet.hp} `);
+        $("#strForMod").html(`<strong>STR</strong> ${str} ${isMod('str')}${arrowDownDown('str')}${arrowUpUp('str')}${arrowDown('str')}${arrowUp('str')}`);
+        $("#conForMod").html(`<strong>CON</strong> ${con} ${isMod('con')}${arrowDownDown('con')}${arrowUpUp('con')}${arrowDown('con')}${arrowUp('con')}`);
+        $("#sizForMod").html(`<strong>SIZ</strong> ${siz} ${isMod('siz')}${arrowDownDown('siz')}${arrowUpUp('siz')}${arrowDown('siz')}${arrowUp('siz')}`);
+        $("#dexForMod").html(`<strong>DEX</strong> ${dex} ${isMod('dex')}${arrowDownDown('dex')}${arrowUpUp('dex')}${arrowDown('dex')}${arrowUp('dex')}`);
+        checkMod();
+    }
 }
 function checkMod(){
     if(modCheck.attReduce && modCheck.eduDep && modCheck.luckRoll){
@@ -534,7 +543,7 @@ function printOccuTable(){
         var das = da.join(' 或 ');
         $("#occupationsTable > tbody").append(
             `<tr>
-                <td scope="row">${oc.term}</td>
+                <td id="${oc.term}" scope="row">${oc.term}</td>
                 <td>${das}</td>
                 <td>${oc.text}</td>
                 <td style="text-align:center">${oc.crFrom} - ${oc.crTo}</td>
@@ -600,9 +609,15 @@ function occuFilter(filter=ocFilter){
     });
     printOccuTable();
 }
+$(document).ready(function (){
+    $("#occupationsTable").on('click', 'tbody tr', function(event){
+        $(this).addClass('occSelect').siblings().removeClass('occSelect');
+        console.log(this);
+    });
+});
 function occuSelect(x=''){
     if(x){
-        characterSheet.occupation={x};
+        characterSheet.occupation=x;
         filteredOccu.forEach((item)=>{
             if(item.term == characterSheet.occupation){
                 occupationSkills.push([item.option1,item.subOption1],[item.option2,item.subOption2],[item.option3,item.subOption3],[item.option4,item.subOption4],[item.option5,item.subOption5],[item.option6,item.subOption6],[item.option7,item.subOption7],[item.option8,item.subOption8],[item.option9,item.subOption9]);
@@ -610,9 +625,10 @@ function occuSelect(x=''){
                 characterSheet.crFrom=item.crTo;
                 occuText=item.text;
             }
-            });
+        });
     }
     characterSheet.occupationSkills=occupationSkills;
+    console.log(characterSheet);
 }
 // 分配技能
 var skillsAssign=skillInit(skills[era]);
