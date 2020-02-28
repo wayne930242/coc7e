@@ -27,207 +27,402 @@
      <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-     <!-- popperjs -->
-     <script src="https://unpkg.com/@popperjs/core@2"></script>
      <link href="./css/hover-min.css" rel="stylesheet">
      <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,500,700|Noto+Serif+TC:400,700&display=swap" rel="stylesheet">
      <link href="./css/all.css" rel="stylesheet">
      <script src="./js/all.js"></script> 
      <link href="./css/nouislider.css" rel="stylesheet">
      <script src="./js/nouislider.js"></script> 
-     <script src="./js/occupations.js"></script> 
-     <script src="./js/skills.js"></script> 
-     <script src="./js/rpgbasic.js"></script> 
+     <script src="./js/occupations.js"></script>
+     <script src="./js/skills.js"></script>
+     <script src="./js/rpgbasic.js"></script>
+     <script src="./js/equipments.js"></script>
      <script src="./js/corecal.js"></script>
      <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-
 <div class="container-sm">
 
-<div class="row">
-     <div class="col-sm-1-12">
-          <h1>CoC 7 便利創角  <span class="badge badge-secondary">beta</span></h1>
-          <p>by 洪偉</p>
-     </div>
-</div>
-<div class="row">
-     <div class="col-sm-3">
-          <h2>0. 前置作業</h2>
-          <p>與你的守密人確認以下資訊：</p>
-          <ul>
-               <li>場景的年代或日期： <select id="selector_era" onchange="selectVersion(this.options[this.selectedIndex].value)"><option value='era1920'>1920 年代</option><option value='modern'>現代</option></select></li>
-               <li>遊戲設定的位置或國家</li>
-               <li>推薦的職業或導入</li>
-               <li>調查員是否認識</li>
-               <li>是否有其他限制條件</li>
-          </ul>
-     </div>
-     <div class="col-sm-4">
-          <h2>1. 生成屬性</h2>
-          <table class="table table-sm att-table" id="attTable">
-               <thead class="thead-dark">
-                    <tr>
-                         <th>屬性</th>
-                         <th><span class="hvr-buzz" id="attDice"><i class="fas fa-dice"></i></span></th>
-                         <th>購點</th>
-                    </tr>
-               </thead>
-               <tbody>
-                    <tr>
-                         <td>STR</td>
-                         <td><div id = "str">3D6 x5</div></td>
-                         <td><input type="text" id="str_keyin" class="form-control-sm form-control att_input" onchange="updateAtt(this.id)"></td>
-                    </tr>
-                    <tr>
-                         <td>CON</td>
-                         <td><div id = "con">3D6 x5</div></td>
-                         <td><input type="text" id="con_keyin" class="form-control-sm form-control att_input" onchange="updateAtt(this.id)"></td>
-                    </tr>
-                    <tr>
-                         <td>SIZ</td>
-                         <td><div id = "siz">2D6+6 x5</div></td>
-                         <td><input type="text" id="siz_keyin" class="form-control-sm form-control att_input" onchange="updateAtt(this.id)"></td>
-                    </tr>
-                    <tr>
-                         <td>DEX</td>
-                         <td><div id = "dex">3D6 x5</div></td>
-                         <td><input type="text" id="dex_keyin" class="form-control-sm form-control att_input" onchange="updateAtt(this.id)"></td>
-                    </tr>
-                    <tr>
-                         <td>INT</td>
-                         <td><div id = "int">2D6+6 x5</div></td>
-                         <td><input type="text" id="int_keyin" class="form-control-sm form-control att_input" onchange="updateAtt(this.id)"></td>
-                    </tr>
-                    <tr>
-                         <td>APP</td>
-                         <td><div id = "app">3D6 x5</div></td>
-                         <td><input type="text" id="app_keyin" class="form-control-sm form-control att_input" onchange="updateAtt(this.id)"></td>
-                    </tr>
-                    <tr>
-                         <td>POW</td>
-                         <td><div id = "pow">3D6 x5</div></td>
-                         <td><input type="text" id="pow_keyin" class="form-control-sm form-control att_input" onchange="updateAtt(this.id)"></td>
-                    </tr>
-                    <tr>
-                         <td>EDU</td>
-                         <td><div id = "edu">2D6+6 x5</div></td>
-                         <td><input type="text" id="edu_keyin" class="form-control-sm form-control att_input" onchange="updateAtt(this.id)"></td>
-                    </tr>
-                    <tr class="table-secondary">
-                         <td><strong>＃</strong></td>
-                         <td><div id="dice_count"></div></td>
-                         <td><div id="att_sum"></div></td>
-                    </tr>
-               </tbody>
-          </table>
-          <div class="input-group mb-3">
-               <div class="input-group-prepend">
-                    <label class="input-group-text" for="selector_att">選擇</label>
-                    <select class="custom-select" id="selector_att" onchange="selectAtt(this.options[this.selectedIndex].value)">
-                    <option selected>已生成屬性...</option>
+     <div class="row">
+          <div class="col-sm-12">
+               <h1>CoC 7 便利創角  <span class="badge badge-secondary">beta</span></h1>
+               <p>by 洪偉</p>
+          </div>
+          <div class="col-sm-4">
+               <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                         <button class="input-group-text" type="button">場景與年代</button>
+                    </div>
+                    <select class="custom-select" id="selector_era" onchange="selectVersion(this.options[this.selectedIndex].value)">
+                         <option value="era1920" selected>1920 年代</option>
+                         <option value="modern">現代</option>
                     </select>
                </div>
           </div>
      </div>
-     <div class="col-sm-5">
-          <h2>2. 年齡調整</h2>
-          <p><strong>決定角色年齡：</strong><span id="selectedAge"></span></p>
-          <div style="margin-bottom:60px" class="noUiSlider" id="age-input"></div>
-          <p id="age_mod_text"></p>
-          <div id="age_mod_check" class="alert alert-danger" role="alert">年齡調整尚未完成。</div>
-          <div class="row">
-               <div id="data_box_age_mod" class="col-4">
-                    <div id="strForMod"></div>
-                    <div id="dexForMod"></div>
-                    <div id="powForMod"></div>
-                    <div id="hpForMod"></div>
-                    <div id="movForMod"></div>
+     <div class="row">
+          <div class="col-sm-4">
+               <h2>1. 生成屬性</h2>
+               <table class="table table-sm att-table" id="attTable">
+                    <thead class="thead-dark">
+                         <tr>
+                              <th>屬性</th>
+                              <th><span class="hvr-wobble-vertical pointer" id="attDice"><i class="fas fa-dice"></i></span></th>
+                              <th>購點</th>
+                         </tr>
+                    </thead>
+                    <tbody>
+                         <tr>
+                              <td>STR</td>
+                              <td><div id = "str">3D6 x5</div></td>
+                              <td><input type="text" id="str_keyin" class="form-control-sm form-control att_input key-in-input" onchange="updateAtt(this.id)"></td>
+                         </tr>
+                         <tr>
+                              <td>CON</td>
+                              <td><div id = "con">3D6 x5</div></td>
+                              <td><input type="text" id="con_keyin" class="form-control-sm form-control att_input key-in-input" onchange="updateAtt(this.id)"></td>
+                         </tr>
+                         <tr>
+                              <td>SIZ</td>
+                              <td><div id = "siz">2D6+6 x5</div></td>
+                              <td><input type="text" id="siz_keyin" class="form-control-sm form-control att_input key-in-input" onchange="updateAtt(this.id)"></td>
+                         </tr>
+                         <tr>
+                              <td>DEX</td>
+                              <td><div id = "dex">3D6 x5</div></td>
+                              <td><input type="text" id="dex_keyin" class="form-control-sm form-control att_input key-in-input" onchange="updateAtt(this.id)"></td>
+                         </tr>
+                         <tr>
+                              <td>INT</td>
+                              <td><div id = "int">2D6+6 x5</div></td>
+                              <td><input type="text" id="int_keyin" class="form-control-sm form-control att_input key-in-input" onchange="updateAtt(this.id)"></td>
+                         </tr>
+                         <tr>
+                              <td>APP</td>
+                              <td><div id = "app">3D6 x5</div></td>
+                              <td><input type="text" id="app_keyin" class="form-control-sm form-control att_input key-in-input" onchange="updateAtt(this.id)"></td>
+                         </tr>
+                         <tr>
+                              <td>POW</td>
+                              <td><div id = "pow">3D6 x5</div></td>
+                              <td><input type="text" id="pow_keyin" class="form-control-sm form-control att_input key-in-input" onchange="updateAtt(this.id)"></td>
+                         </tr>
+                         <tr>
+                              <td>EDU</td>
+                              <td><div id = "edu">2D6+6 x5</div></td>
+                              <td><input type="text" id="edu_keyin" class="form-control-sm form-control att_input" onchange="updateAtt(this.id)"></td>
+                         </tr>
+                         <tr class="table-secondary">
+                              <td><strong>＃</strong></td>
+                              <td><div id="dice_count"></div></td>
+                              <td><div id="att_sum"></div></td>
+                         </tr>
+                    </tbody>
+               </table>
+               <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                         <label class="input-group-text" for="selector_att">選擇</label>
+                         <select class="custom-select" id="selector_att" onchange="selectAtt(this.options[this.selectedIndex].value)">
+                         <option id="first-att-dice" selected>已生成屬性...</option>
+                         </select>
+                    </div>
                </div>
-               <div id="data_box_age_mod" class="col-4">
-                    <div id="conForMod"></div>
-                    <div id="intForMod"></div>
-                    <div id="eduForMod"></div>
-                    <div id="dbForMod"></div>
-                    <div id="luckForMod"></div>
+          </div>
+          <div class="col-sm-8">
+               <h2>2. 年齡調整</h2>
+               <div class="container">
+                    <div class="row">
+                         <div class="col-4">
+                              <form>
+                                   <div class="form-group">
+                                        <label for="selectedAge">角色年齡</label>
+                                        <input id="selectedAge" class="form-control form-control-sm" type="text" placeholder="決定年齡">
+                                   </div>
+                              </form>
+                         </div>
+                         <div class="col-8">
+                              <div style="margin-bottom:60px" class="noUiSlider" id="age-input"></div>
+                         </div>
+                    </div>
                </div>
-               <div id="data_box_age_mod" class="col-4">
-                    <div id="sizForMod"></div>
-                    <div id="appForMod"></div>
-                    <div id="sanForMod"></div>
-                    <div id="buildForMod"></div>
-                    <div id="mpForMod"></div>
+               <p id="age_mod_text"></p>
+               <div id="age_mod_check" class="alert alert-danger" role="alert">年齡調整尚未完成。</div>
+               <table class="table text-monospace" id="data_box_age_mod" width=100%>
+                    <tbody>
+                         <tr>
+                              <td width=15%><strong>STR</strong></td>
+                              <td width=12% align="right" id="strForMod"></td>
+                              <td width=8% id="isStrMod"></td>
+                              <td width=15%><div id="strArrow" class="btn-group btn-group-sm" role="group" aria-label="屬性調整"></div></td>
+                              <td width=15%><strong>CON</strong></td>
+                              <td width=12% align="right" id="conForMod"></td>
+                              <td width=8% id="isConMod"></td>
+                              <td width=15%><div id="conArrow" class="btn-group btn-group-sm" role="group" aria-label="屬性調整"></div></td>
+                         </tr>
+                         <tr>
+                              <td><strong>SIZ</strong></td>
+                              <td align="right" id="sizForMod"></td>
+                              <td id="isSizMod"></td>
+                              <td><div id="sizArrow" class="btn-group btn-group-sm" role="group" aria-label="屬性調整"></div></td>
+                              <td><strong>DEX</strong></td>
+                              <td align="right" id="dexForMod"></td>
+                              <td id="isDexMod"></td>
+                              <td><div id="dexArrow" class="btn-group btn-group-sm" role="group" aria-label="屬性調整"></div></td>
+                         </tr>
+                         <tr>
+                              <td><strong>INT</strong></td>
+                              <td align="right" id="intForMod"></td>
+                              <td></td>
+                              <td></td>
+                              <td><strong>APP</strong></td>
+                              <td align="right" id="appForMod"></td>
+                              <td id="isAppMod"></td>
+                              <td></td>
+                         </tr>
+                         <tr>
+                              <td><strong>EDU</strong></td>
+                              <td align="right" id="eduForMod"></td>
+                              <td id="isEduMod"></td>
+                              <td id="eduDice"></td>
+                              <td colspan="4" id=eduHistory></td>
+                         </tr>
+                         <tr>
+                              <td><strong>POW</strong></td>
+                              <td align="right" id="powForMod"></td>
+                              <td></td>
+                              <td></td>
+                              <td><strong>SAN</strong></td>
+                              <td align="right" id="sanForMod"></td>
+                              <td></td>
+                              <td></td>
+                         </tr>
+                         <tr>
+                              <td><strong>H P</strong></td>
+                              <td align="right" id="hpForMod"></td>
+                              <td></td>
+                              <td></td>
+                              <td><strong>D B</strong></td>
+                              <td align="right" id="dbForMod"></td>
+                              <td id="isDbMod"></td>
+                              <td></td>
+                         </tr>
+                         <tr>
+                              <td><strong>體格</strong></td>
+                              <td align="right" id="buildForMod"></td>
+                              <td id="isBuildMod"></td>
+                              <td></td>
+                              <td><strong>MOV</strong></td>
+                              <td align="right" id="movForMod"></td>
+                              <td id="isMovMod"></td>
+                              <td></td>
+                         </tr>
+                         <tr>
+                              <td><strong>幸運</strong></td>
+                              <td align="right" id="luckForMod"></td>
+                              <td id="luckHistory"></td>
+                              <td id="luckDice"></td>
+                              <td><strong>M P</strong></td>
+                              <td align="right" id="mpForMod"></td>
+                              <td></td>
+                              <td></td>
+                         </tr>
+                    </tbody>
+               </table>
+          </div>
+     </div>
+     <div class="row">
+          <div class="col-sm-12">
+               <h2>3. 決定職業</h2>
+               <div class="row">
+                    <div class="col-sm-8">
+                         <div class="row">
+                              <div class="col-sm-12 occuCard-top" id="occuCard">
+                                   <div class="card">
+                                        <div class="card-body" id="selectOccuTable">
+                                             <p class="desc">選擇一個職業。</p>
+                                        </div>
+                                   </div>
+                              </div>
+                         </div>
+                    </div>
+                    <div class="col-sm-4">
+                         <div class="input-group mb-3">
+                              <div class="input-group-prepend">
+                                   <span class="input-group-text">搜尋職業</span>
+                              </div>
+                              <input type="text" onchange="updateOcFilterTerm(this.id)" class="form-control" placeholder="輸入關鍵字後按「Enter」" id="occuFilter" aria-label="職業名稱" aria-describedby="basic-addon1">
+                         </div>
+                         <p>信用評級範圍：</p>
+                         <div style="margin-bottom:60px" class="noUiSlider" id="cr-input"></div>
+                         <div class="row" id="filter" style="display: none;">
+                              <div class="d-flex">
+                                   <div class="dropdown mr-1">
+                                        <button type="button" class="btn btn-secondary dropdown-toggle" id="occuAtt" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        職業優先屬性
+                                        </button>
+                                   <div class="dropdown-menu" aria-labelledby="occuAtt">
+                                        <option class="dropdown-item" href="#">STR</option>
+                                        <option class="dropdown-item" href="#">DEX</option>
+                                        <option class="dropdown-item" href="#">APP</option>
+                                        <option class="dropdown-item" href="#">POW</option>
+                                        <option class="dropdown-item" href="#">EDU</option>
+                                   </div>
+                                   </div>
+                              </div>
+                              <div class="col-sm-9">
+                              </div>
+                         </div>
+                    </div>
                </div>
           </div>
      </div>
-</div>
-<div class="row">
-     <div class="col-sm-12">
-          <h2>3. 決定職業</h2>
-          <div class="row">
-               <div class="col-sm-6">
-                    <div class="input-group mb-3">
-                         <div class="input-group-prepend">
-                              <span class="input-group-text">搜尋職業</span>
+     <div class="row">
+          <div class="col-sm-12">
+               <table id="occupationsTable" class="table table-smr table-striped">
+                    <thead class="thead-dark">
+                         <tr>
+                              <th style="width:15%">職業</th>
+                              <th style="width:15%">屬性</th>
+                              <th style="width:40%">技能</th>
+                              <th style="width:12%">CR</th>
+                              <th style="width:18%">＃</th>
+                         </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+               </table>
+          </div>
+     </div>
+     <div class="row">
+          <div class="col-sm-12" id="skillAnchor">
+               <h2>4. 決定技能分配</h2>
+               <div class="row">
+                    <div id="skill-table" class="col-sm-12">
+                         <div class="card">
+                              <div class="card-body">
+                                   <h5 class="card-title">構點小幫手</h5>
+                                   <div class="card-text skill-helper">先選擇職業。</div>
+                              </div>
                          </div>
-                         <input type="text" onchange="updateOcFilterTerm(this.id)" class="form-control" placeholder="輸入關鍵字後按「Enter」" id="occuFilter" aria-label="Username" aria-describedby="basic-addon1">
+                         <div class="card">
+                              <div class="card-body">
+                                   <div id="skill-pool" class="col-sm-12 d-flex flex-wrap">
+                                   </div>
+                              </div>
+                         </div>
                     </div>
-               </div>
-               <div class="col-sm-6">
-                    <div id="selectOccuTable">
+                    <div class="col-sm-12">
+                         <table class="table" width=100%>
+                              <thead align="center">
+                                   <tr>
+                                        <th width="20%"">技能</th>
+                                        <th width="7%"">基礎</th>
+                                        <th width="7%"">職業</th>
+                                        <th width="7%"">經驗包</th>
+                                        <th width="7%"">興趣</th>
+                                        <th width="7%"">加成</th>
+                                        <th>%</th>
+                                        <th><i class="fas fa-flag"></i></th>
+                                   </tr>
+                              </thead>
+                              <tbody id="occu-skill-assign" align="center">
+                              </tbody>
+                              <tbody id="skill-assign" align="center">
+                              </tbody>
+                         </table>
                     </div>
                </div>
           </div>
-          <div class="row" id="filter" style="display:none">
-               <div class="col-sm-1">
-                    <div id="attFilter">
-                         <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="STR" id="filterSTR">
-                              <label class="form-check-label" for="filterSTR">STR</label>
-                         </div>
-                         <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="DEX" id="filterDEX">
-                              <label class="form-check-label" for="filterDEX">DEX</label>
-                         </div>
-                         <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="APP" id="filterAPP">
-                              <label class="form-check-label" for="filterAPP">APP</label>
-                         </div>
-                         <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="POW" id="filterPOW">
-                              <label class="form-check-label" for="filterPOW">POW</label>
-                         </div>
-                         <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="empty" id="filterEDU">
-                              <label class="form-check-label" for="filterEDU">只有 EDU</label>
+     </div>
+     <div class="row">
+          <div class="col-sm-12">
+               <h2>5. 創造背景故事</h2>
+          </div>
+          <div class="col-sm-6">
+               <div class="card">
+                    <div class="card-body">
+                         <h4 class="card-title">個人描述</h4>
+                         <div class="card-text">
+                              <textarea class="backstory-form-control" id="personal-description-input" rows="3"></textarea>
                          </div>
                     </div>
                </div>
-               <div class="col-sm-2">
+               <div class="card">
+                    <div class="card-body">
+                         <h4 class="card-title">意識形態/信念</h4>
+                         <div class="card-text">
+                              <textarea class="backstory-form-control" id="ideology-beliefs-input" rows="3"></textarea>
+                         </div>
+                    </div>
                </div>
-               <div class="col-sm-2">
-               </div>
-               <div class="col-sm-4">
+               <div class="card">
+                    <div class="card-body">
+                         <h4 class="card-title">重要之人</h4>
+                         <div class="card-text">
+                              <textarea class="backstory-form-control" id="significant-people-input" rows="3"></textarea>
+                         </div>
+                    </div>
                </div>
           </div>
-          <table id="occupationsTable" class="table table-smr table-striped">
-               <thead class="thead-dark">
-                    <tr>
-                         <th style="width:15%">職業</th>
-                         <th style="width:15%">屬性</th>
-                         <th style="width:40%">職業技能</th>
-                         <th style="width:12%">CR</th>
-                         <th style="width:18%">備註</th>
-                    </tr>
-               </thead>
-               <tbody>
-               </tbody>
-          </table>
-          <h2>4. 決定技能分配</h2>
-          <h2>5. 創造背景故事</h2>
-          <h2>6. 裝備調查員</h2>
-          <h2>7. 完成細節</h2>
-          <h2>8. 匯出角色卡</h2>
+          <div class="col-sm-6">
+               <div class="card">
+                    <div class="card-body">
+                         <h4 class="card-title">意義之地</h4>
+                         <div class="card-text">
+                              <textarea class="backstory-form-control" id="meaningful-locations-input" rows="3"></textarea>
+                         </div>
+                    </div>
+               </div>
+               <div class="card">
+                    <div class="card-body">
+                         <h4 class="card-title">珍重之物</h4>
+                         <div class="card-text">
+                              <textarea class="backstory-form-control" id="treasured-possessions-input" rows="3"></textarea>
+                         </div>
+                    </div>
+               </div>
+               <div class="card">
+                    <div class="card-body">
+                         <h4 class="card-title">特質</h4>
+                         <div class="card-text">
+                              <textarea class="backstory-form-control" id="traits-input" rows="3"></textarea>
+                         </div>
+                    </div>
+               </div>
+          </div>
+          <div class="col-sm-12">
+               <div class="card">
+                    <div class="card-body">
+                         <h4 class="card-title">背景故事</h4>
+                         <div class="card-text">
+                              <textarea class="backstory-form-control" id="bio-input" rows="3"></textarea>
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </div>
+     <div class="row">
+          <div class="col-sm-12">
+               <h2>6. 裝備調查員</h2>
+               <div class="card">
+                    <div class="card-body">
+                         <h4 class="card-title">隨身物品</h4>
+                         <div class="card-text">
+                              <textarea class="backstory-form-control" id="equipment-input" rows="3"></textarea>
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </div>
+     <div class="row">
+          <div class="col-sm-12">
+               <h2>7. 完成細節</h2>
+          </div>
+     </div>
+     <div class="row">
+          <div class="col-sm-12">
+               <h2>8. 匯出角色卡</h2>
+          </div>
      </div>
 </div>
 </body>

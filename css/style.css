@@ -13,5 +13,48 @@
     vertical-align: middle;
 }
 #occupationsTable .occSelect{
-    background: #17a2b8;
+    background:#20c997;
+}
+.row{
+    margin-bottom: 1rem;
+}
+h2{
+    margin-bottom: 1.5rem;
+}
+.desc{
+    margin-bottom: 0rem;
+}
+.occuCard{
+    margin-bottom: 1rem;
+    height: 13.5rem;
+}
+.pointer{
+    cursor: pointer;
+}
+.skillpoolbutton{
+    margin:5px;
+}
+.skill-filter{
+    margin:10px;
+}
+.bonus-input{
+    text-align: center;
+}
+.occu-input{
+    text-align: center;
+}
+.int-input{
+    text-align: center;
+}
+.pack1-input{
+    text-align: center;
+}
+.pack2-input{
+    text-align: center;
+}
+.toggleOccu{
+    margin: 5px;
+}
+.backstory-form-control{
+    width: 100%;
 }
