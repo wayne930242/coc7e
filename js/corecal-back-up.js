@@ -53,7 +53,6 @@ var characterSheet = {//角色卡
     eqipments:{
         cash: 0 ,
         assets: 0,
-        assetsContent: '',
         spendinglv: 0,
         possession: '',
     },
@@ -67,8 +66,9 @@ var characterSheet = {//角色卡
         traits: '',
         injuriesAndScars: '',
         phobiasAndManias: '',
-        arcaneTomesSpellsAndArtifacts: '',
-        encountersWithStrangeEntities: '',
+        arcaneTomes: '',
+        spellsAndArtifacts: '',
+        encounterswithStrangeEntities: '',
     }
 };
 //db & build
@@ -428,8 +428,6 @@ function ageMod(a=age0){//年齡調整計算
     ageModCal('con');
     ageModCal('siz');
     ageModCal('dex');
-    skillInit();
-    assignSkills();
 }
 function print_data_box_app_mod(){
     if(att_selected){
@@ -856,9 +854,7 @@ function occuSelect(x=''){
     $("#selectOccuTable").html(`<p class="desc card-text"><strong>${ocTerm}</strong>。${ocSkills}。<br/><strong>職業技能</strong>${ocAtt}${sps}，<strong>CR：</strong>${ocCR}。<br/><strong>備註</strong>：${ocNote}。</p><br><div id="" class="btn btn-primary occuTableToggle">確定</div>`);
     skillInit();
     assignSkills();
-
 }
-// fix occu table
 $(document).ready(function () {
     $("#selectOccuTable").on("click", ".occuTableToggle" ,function(event){
         event.preventDefault();
@@ -881,18 +877,50 @@ $(document).ready(function () {
 });
 var assignTable=[];
 var skillPool = '';
+var skillMatrix = [
+    {
+        array: ["信用評級"],
+        skillAssign: {
+            basic: 0,
+            occuSkills: 0,
+            intSkills: 0,
+            pack1Skills: 0,
+            pack2Skills: 0,
+            bonusSkills: 0,
+        }
+    }
+];
 function skillInit (array=skills[era]){
     skillPool='';
+    skillMatrix = [
+        {
+            array: ["信用評級"],
+            skillAssign: {
+                basic: 0,
+                occuSkills: 0,
+                intSkills: 0,
+                pack1Skills: 0,
+                pack2Skills: 0,
+                bonusSkills: 0,
+            }
+        }
+    ];
     $("#occu-skill-assign").html(`
         <tr id="信用評級-input" class="occu-skill skill-entry skill-entry-0">
             <td align="left">
-                <button type="button" class="btn btn-primary btn-sm occu-skill-table skill-name" id="信用評級">信用評級</button>
+                <button type="button" class="btn btn-primary btn-sm occu-skill-table skill-name" id="信用評級">信用評級
+                </button>
             </td>
             <td class="basic">
                 0
             </td>
-            <td class="level-input-td">
-                <input class="form-control form-control-sm level-input occu-input occu-input-0" type="text">
+            <td>
+                <input class="form-control form-control-sm occu-input occu-input-0" type="text">
+            </td>
+            <td class="pack-input-td">
+            </td>
+            <td class="int-input-td">
+                <input class="form-control form-control-sm int-input" type="text">
             </td>
             <td class="bonus-input-td">
                 <input class="form-control form-control-sm bonus-input" type="text">
@@ -968,16 +996,15 @@ function basicCal(basic){
     }
 }
 var countDD = 1;
-function printSkillTable(skill, sub, basic=1){
+function printSkillTable(jq, sub, basic=1){
+    var text = $(jq).text();
     var level = basic ;
-    for(let ele of assignTable){
-        if(ele.name == skill){basic = ele.basic};
-    }
-    basicText = basic;
-    basic = basicCal(basic);
     var options = "";
+    for(let ele of assignTable){
+        if(ele.name == text){basic = ele.basic};
+    }
     for (let obj of subskills){
-        if(skill==obj.term){
+        if($(jq).attr("id").replace('-','/').slice(0,-11)==obj.term){
             for(let sub of obj.sub){
                 options+=`<a class="dropdown-item subskill-option">${sub.term}</a>`;
             }
@@ -996,39 +1023,48 @@ function printSkillTable(skill, sub, basic=1){
         </div>`
     }
     var skillAssign = "#skill-assign";
+    var pack1Input = ``;
+    var intInput = `<input class="form-control form-control-sm int-input" type="text">`;
+    var bonusInput = `<input class="form-control form-control-sm bonus-input" type="text">`;
+    var flag = '';
     var key = 0;
     var f = true;
     var odkma = [];
     for (let e of occupationSkills) {
-        if(e[0].includes(skill)){
+        if(e[0].includes(text)){
             if(!e[3]['occu']){odkma.push(key)};
             f = false;
         }
         key ++;
     }
-    var flag = f ?  '' : `
+    flag = f ?  '' : `
     <div class="btn-group">
         <button type="button" class="occu-dropdown btn btn-outline-primary btn-sm dropdown-toggle occu-dropdown-${countDD}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">職業技能</button>
         <div class="dropdown-menu occu-dropdown-menu-${countDD}">${occuDropdownMenu(odkma,countDD)}</div>
     </div>`;
     if(sub){
         $(skillAssign).append(`
-        <tr class="skill-entry skill-entry-${countDD} data-basic=${basic}">
+        <tr id="${text}-input" class="skill-entry skill-entry-${countDD}">
             <td align="left">
                 <div class="input-group">    
-                    <button type="button" class="btn btn-secondary btn-sm subskill-table skill-name" id="${skill}">${skill}</button>
+                    <button type="button" class="btn btn-secondary btn-sm subskill-table skill-name" id="${text}">${text}</button>
                     <input type="text" class="form-control form-control-sm subskill-input" aria-label="選擇子技能">
                     ${menu}
                 </div>
             </td>
             <td class="basic">
-                ${basicText}
+                ${basic}
             </td>
-            <td class="level-input-td">
-                <input class="form-control form-control-sm level-input" type="text">
+            <td class="occu-input-td">
+            </td>
+            <td class="pack1-input-td">
+                ${pack1Input}
+            </td>
+            <td class="int-input-td">
+                ${intInput}
             </td>
             <td class="bonus-input-td">
-                <input class="form-control form-control-sm bonus-input" type="text">
+                ${bonusInput}
             </td>
             <td class="level">
                 ${level}
@@ -1038,19 +1074,25 @@ function printSkillTable(skill, sub, basic=1){
             </td>
         </tr>`
     );} else {
+        $(jq).hide();
         $(skillAssign).append(`
-            <tr class="skill-entry skill-entry-${countDD}" data-basic=${basic}">
+            <tr id="${text}-input" class="skill-entry skill-entry-${countDD}">
                 <td align="left">
-                    <button type="button" class="btn btn-secondary btn-sm skill-name non-subskill-table" id="${skill}">${skill}</button>
+                    <button type="button" class="btn btn-secondary btn-sm skill-name non-subskill-table" id="${text}">${text}</button>
                 </td>
                 <td class="basic">
-                    ${basicText}
+                    ${basic}
                 </td>
-                <td class="level-input-td">
-                    <input class="form-control form-control-sm level-input" type="text">
+                <td class="occu-input-td">
+                </td>
+                <td class="pack1-input-td">
+                    ${pack1Input}
+                </td>
+                <td class="int-input-td">
+                    ${intInput}
                 </td>
                 <td class="bonus-input-td">
-                    <input class="form-control form-control-sm bonus-input" type="text">
+                    ${bonusInput}
                 </td>
                 <td class="level">
                     ${level}
@@ -1072,6 +1114,7 @@ function occuDropdownMenu(array, k){
 }
 function cancelOccuOption(e ,k){
     var t = $(`.skill-entry-${k}`).find(".skill-name").attr("id").replace("-","/");
+    console.log(t);
     occupationSkills[e][3] = {occu: false};
     var key = 0;
     var odkma = [];
@@ -1089,9 +1132,7 @@ function cancelOccuOption(e ,k){
     $(`.skill-entry-${k}`).appendTo("#skill-assign");
     $(`.skill-entry-${k}`).find(".skill-name").addClass("btn-secondary");
     $(`.skill-entry-${k}`).find(".skill-name").removeClass("btn-primary");
-    $(`.skill-entry-${k}`).find(".level-input").removeClass('occu-input');
-    assignSkills();
-    printSkillHelper()
+    $(`.skill-entry-${k}`).find(".occu-input-td").html('');
 }
 function selectOccuOption(e, k){
     occupationSkills[e][3] = {occu: k};
@@ -1102,21 +1143,12 @@ function selectOccuOption(e, k){
     $(`.skill-entry-${k}`).appendTo("#occu-skill-assign");
     $(`.skill-entry-${k}`).find(".skill-name").removeClass("btn-secondary");
     $(`.skill-entry-${k}`).find(".skill-name").addClass("btn-primary");
-    $(`.skill-entry-${k}`).find(".level-input").addClass('occu-input');
-    assignSkills();
-    printSkillHelper()
+    $(`.skill-entry-${k}`).find(".occu-input-td").html(`<input class="form-control form-control-sm occu-input occu-input-${k}" type="text">`);
 }
 $(document).ready(function () {
     // click the skill pool buttons
-    $("#skill-assign, #occu-skill-assign").on("click", ".non-subskill-table" ,function(){
-        var id = $(this).attr("id").replace('/','-');
-        $(this).parents(".skill-entry").hide();
-        $(`#${id}-skill-pool`).show();
-    });
-    $("#skill-assign, #occu-skill-assign").on("click", ".subskill-table" ,function(){
-        $(this).parents(".skill-entry").hide();
-    });
     $("#skill-pool").on("click", ".subSkill", function(){
+        var jq = this;
         var a = 1;
         var skill = $(this).text();
         for (let ele of assignTable){
@@ -1124,11 +1156,14 @@ $(document).ready(function () {
                 a = ele.basic;
             }
         }
-        printSkillTable(skill, true, a);
+        var b = basicCal(a);
+        printSkillTable(jq, true, b);
     });
     $("#skill-pool").on("click", ".nonSubSkill" , function(){
+        var jq = this;
         var skill = $(this).text();
         var array = [skill];
+        // NOTE 需要特別寫
         if (skill=='火器（步槍/霰彈槍）') {
             array = ["火器","步槍/霰彈槍"];
         } else if (skill=='火器（手槍）'){
@@ -1142,106 +1177,233 @@ $(document).ready(function () {
                 a = ele.basic;
             }
         }
-        printSkillTable(skill, false, a);
-        $(this).hide();
+        var b = basicCal(a);
+        if (skillMatrix == []){skillMatrix[0]= {
+            array: array,
+            skillAssign: {
+                basic: b,
+                occuSkills: 0,
+                intSkills: 0,
+                pack1Skills: 0,
+                pack2Skills: 0,
+                bonusSkills: 0,
+            }};
+        }
+        for (let obj of skillMatrix){
+            if(obj.array != array){
+                skillMatrix.push({
+                    array: array,
+                    skillAssign: {
+                        basic: b,
+                        occuSkills: 0,
+                        intSkills: 0,
+                        pack1Skills: 0,
+                        pack2Skills: 0,
+                        bonusSkills: 0,
+                    }})
+            }
+        }
+        printSkillTable(jq, false, b);
+    });
+    $("#skill-assign, #occu-skill-assign").on("click", ".non-subskill-table" ,function(){
+        var id = $(this).attr("id").replace('/','-');
+        $(this).parents(".skill-entry").remove();
+        $(`#${id}-skill-pool`).show();
+    });
+    $("#skill-assign, #occu-skill-assign").on("click", ".subskill-table" ,function(){
+        $(this).parents(".skill-entry").remove();
     });
     $("#skill-assign, #occu-skill-assign").on("click", ".subskill-option" , function(){
+        var skill = $(this).parents(".skill-entry").find(".skill-name").attr("id").replace('-','/');
+        var sub = $(this).text();
+        $(this).parents(".skill-entry").find(".subskill-input").val(sub);
+        var array = [skill, sub];
+        var occu = $(this).parents(".skill-entry").find(".occu-input").val() ? $(this).parents(".skill-entry").find(".occu-input").val() : 0;
+        var intP = $(this).parents(".skill-entry").find(".int-input").val() ? $(this).parents(".skill-entry").find(".int-input").val() : 0;
+        var bonus = $(this).parents(".skill-entry").find(".bonus-input").val() ? $(this).parents(".skill-entry").find(".bonus-input").val() : 0;
+        var a = 1;
+        for (let ele of assignTable){
+            if(JSON.stringify(ele.array)==JSON.stringify(array)){
+                a = ele.basic;
+            }
+        }
+        var b = basicCal(a);
+        if (skillMatrix == []){skillMatrix[0]= {
+            array: array,
+            skillAssign: {
+                basic: b,
+                occuSkills: occu,
+                intSkills: intP,
+                pack1Skills: 0,
+                pack2Skills: 0,
+                bonusSkills: bonus,
+            }};
+        }
+        for (let obj of skillMatrix){
+            if(obj.array != array){
+                skillMatrix.push({
+                    array: array,
+                    skillAssign: {
+                        basic: b,
+                        occuSkills: occu,
+                        intSkills: intP,
+                        pack1Skills: 0,
+                        pack2Skills: 0,
+                        bonusSkills: bonus,
+                    }})
+            }
+        }
         assignSkills();
-        printSkillHelper()
+        $(this).parents(".skill-entry").find(".level").html(`<p>${b}</p>`);
     })
-    $("#skill-assign, #occu-skill-assign").on("change", ".level-input" ,function(){
+    $("#skill-assign, #occu-skill-assign").on("change", ".occu-input" ,function(){
+        var skill = $(this).parents(".skill-entry").find(".skill-name").attr("id").replace('-','/');
+        var array = [skill];
+        var val = $(this).val()? $(this).val() : 0;
+        var sub = $(this).parents(".skill-entry").find(".subskill-input").val();
+        if (sub){
+            array.push(sub);
+        }
+        var err = true;
+        for (let obj of skillMatrix){
+            if(JSON.stringify(obj.array) == JSON.stringify(array)){
+                obj.skillAssign.occuSkills = parseInt(val);
+                err = false;
+            }
+        }
+        if(err){console.log("err 1");}
         assignSkills();
-        printSkillHelper();
+        for (let obj of skillMatrix){
+            if(JSON.stringify(obj.array) == JSON.stringify(array)){
+                l = obj.skillAssign.occuSkills + obj.skillAssign.intSkills + obj.skillAssign.basic + obj.skillAssign.pack1Skills + obj.skillAssign.pack2Skills + obj.skillAssign.bonusSkills;
+            }
+        }
+        var style = l > 99 ? ' style="color: #dc3545"': '';
+        if (skill = "信用評級"){
+            for (let ele of creditRatingTable[era]){
+                if(ele.range[0] <= l && l <= ele.range[1]){
+                    characterSheet.eqipments.cash = ele.cash[1] ? ele.cash[0]*l : ele.cash[0] ;
+                    characterSheet.eqipments.assets = ele.assets[1] ? ele.assets[0]*l :  ele.assets[0] ;
+                    characterSheet.eqipments.spendinglv = ele.spendingLevel ;
+                    l = l + ` （${ele.rating}）`;
+                    break;
+                }
+            }
+        } else {
+            for (let ele of skillToRating){
+                if(ele.range[0] <= l && l <= ele.range[1]){
+                    l = l + ` （${ele.rating}）`;
+                    break;
+                }
+            }
+        }
+        $(this).parents(".skill-entry").find(".level").html(`<p${style}>${l}</p>`);
     });
     $("#skill-assign, #occu-skill-assign").on("change", ".bonus-input" ,function(){
+        var skill = $(this).parents(".skill-entry").find(".skill-name").attr("id").replace('-','/');
+        var array = [skill];
+        var val = $(this).val()? $(this).val() : 0;
+        var sub = $(this).parents(".skill-entry").find(".subskill-input").val();
+        if (sub){
+            array.push(sub);
+        }
+        var err = true;
+        for (let obj of skillMatrix){
+            if(JSON.stringify(obj.array) == JSON.stringify(array)){
+                obj.skillAssign.bonusSkills = parseInt(val);
+                err = false;
+            }
+        }
+        if(err){console.log("err 2")}
         assignSkills();
-        printSkillHelper()
+        for (let obj of skillMatrix){
+            if(JSON.stringify(obj.array) == JSON.stringify(array)){
+                l = obj.skillAssign.occuSkills + obj.skillAssign.intSkills + obj.skillAssign.basic + obj.skillAssign.pack1Skills + obj.skillAssign.pack2Skills + obj.skillAssign.bonusSkills;
+            }
+        }
+        var style = l > 99 ? ' style="color: #dc3545"': '';
+        if (skill = "信用評級"){
+            for (let ele of creditRatingTable[era]){
+                if(ele.range[0] <= l && l <= ele.range[1]){
+                    characterSheet.eqipments.cash = ele.cash[1] ? ele.cash[0]*l : ele.cash[0] ;
+                    characterSheet.eqipments.assets = ele.assets[1] ? ele.assets[0]*l :  ele.assets[0] ;
+                    characterSheet.eqipments.spendinglv = ele.spendingLevel ;
+                    l = l + ` （${ele.rating}）`;
+                    break;
+                }
+            }
+        } else {
+            for (let ele of skillToRating){
+                if(ele.range[0] <= l && l <= ele.range[1]){
+                    l = l + ` （${ele.rating}）`;
+                    break;
+                }
+            }
+        }
+        $(this).parents(".skill-entry").find(".level").html(`<p${style}>${l}</p>`);
+    });
+    $("#skill-assign, #occu-skill-assign").on("change", ".int-input" ,function(){
+        var skill = $(this).parents(".skill-entry").find(".skill-name").attr("id").replace('-','/');
+        var array = [skill];
+        var val = $(this).val()? $(this).val() : 0;
+        var sub = $(this).parents(".skill-entry").find(".subskill-input").val();
+        if (sub){
+            array.push(sub);
+        }
+        var l = 1 ;
+        var err = true;
+        for (let obj of skillMatrix){
+            if(JSON.stringify(obj.array) == JSON.stringify(array)){
+                obj.skillAssign.intSkills = parseInt(val);
+                err = false;
+            } 
+        }
+        if(err){console.log("err 3");}
+        assignSkills();
+        for (let obj of skillMatrix){
+            if(JSON.stringify(obj.array) == JSON.stringify(array)){
+                l = obj.skillAssign.occuSkills + obj.skillAssign.intSkills + obj.skillAssign.basic + obj.skillAssign.pack1Skills + obj.skillAssign.pack2Skills + obj.skillAssign.bonusSkills;
+            }
+        }
+        var style = l > 99 ? ' style="color: #dc3545"': '';
+        if (skill = "信用評級"){
+            for (let ele of creditRatingTable[era]){
+                if(ele.range[0] <= l && l <= ele.range[1]){
+                    characterSheet.eqipments.cash = ele.cash[1] ? ele.cash[0]*l : ele.cash[0] ;
+                    characterSheet.eqipments.assets = ele.assets[1] ? ele.assets[0]*l :  ele.assets[0] ;
+                    characterSheet.eqipments.spendinglv = ele.spendingLevel ;
+                    l = l + ` （${ele.rating}）`;
+                    break;
+                }
+            }
+        } else {
+            for (let ele of skillToRating){
+                if(ele.range[0] <= l && l <= ele.range[1]){
+                    l = l + ` （${ele.rating}）`;
+                    break;
+                }
+            }
+        }
+        $(this).parents(".skill-entry").find(".level").html(`<p${style}>${l}</p>`);
     });
 });
-var total = {
-    occuSkills: 0,
-    intSkills: 0,
-    pack1Skills: 0,
-    pack2Skills: 0,
-    bonusSkills: 0,
-}
 function assignSkills(){
-    total = {
+    characterSheet.skill = [];
+    var total = {
         occuSkills: 0,
         intSkills: 0,
         pack1Skills: 0,
         pack2Skills: 0,
         bonusSkills: 0,
     }
-    characterSheet.skill = [];
-    $(".skill-entry").each(function(){
-        var basic = $(this).attr("data-basic")?parseInt($(this).attr("data-basic")):0;
-        var level = $(this).find(".level-input").val()?$(this).find(".level-input").val():basic;
-        var occu = $(this).find(".level-input").hasClass("occu-input");
-        var occuAssign = 0;
-        var intAssign = 0;
-        var arr = [];
-        var bonus = $(this).find(".bonus-input").val()? $(this).find(".bonus-input").val() : 0 ;
-        total.bunusSkills += bonus;
-        if($(this).find(".skill-name").hasClass(".subskill-table")){
-            var skill = $(this.find(".skill-name").text());
-            var sub = $(this.find(".subskill-input").val());
-            arr = [skill, sub];
-        } else {
-            var skill = $(this).find(".skill-name").text();
-            arr = [skill];
-        }
-        var f = true ;
-        for (let s of characterSheet.skill){
-            if( JSON.stringify(s.array) == JSON.stringify(arr)){
-                s.level = level;
-                f = false;
-            }
-        }
-        if (f){
-            characterSheet.skill.push({array: arr, level: level});
-        }
-        if (occu){
-            if(characterSheet.skillAssign.occuSkills - total.occuSkills > level - basic){
-                occuAssign = level - basic;
-            } else {
-                occuAssign = characterSheet.skillAssign.occuSkills - total.occuSkills;
-                intAssign = level - basic - characterSheet.skillAssign.occuSkills + total.occuSkills ;
-            }
-        } else {
-            intAssign = level - basic;
-        }
-        var display = '';
-        if ( arr[0] == "信用評級") {
-            c = [];
-            for (let r of creditRatingTable[era]){
-                if(r.range[0] <= parseInt(level) + parseInt(bonus) && parseInt(level) + parseInt(bonus) <= r.range[1]){
-                    display =`${parseInt(level) + parseInt(bonus)}` + "（" + r.rating + "）" ;
-                    spendingLevel = r.spendingLevel;
-                    cash = r.cash[1] ? level * r.cash[0] : r.cash[0] ;
-                    assets = r.assets[1] ? level * r.assets[0] : r.assets[0] ;
-                    c = [spendingLevel ,cash , assets];
-                }
-                printCRDetails(c);
-            }
-        } else {
-            for (let r of skillToRating){
-                if(r.range[0] <= parseInt(level) + parseInt(bonus) && parseInt(level) + parseInt(bonus) <= r.range[1]){
-                    display =`${parseInt(level) + parseInt(bonus)}` + "（" + r.rating + "）";
-                }
-            }
-        }
-        total.intSkills += intAssign;
-        total.occuSkills += occuAssign;
-        $(this).find(".level").html(`<p>${display}</p>`);
-    });
-}
-function printCRDetails(c){
-    $(".print-splv").html(c[0]);
-    $(".print-cash").html(c[1]);
-    $(".print-assets").html(c[2]);
-}
-function printSkillHelper(){
+    for (let ele of skillMatrix){
+        characterSheet.skill.push({skill: ele.array, value: ele.skillAssign.occuSkills + ele.skillAssign.intSkills + ele.skillAssign.bonusSkills + ele.skillAssign.pack1 + ele.skillAssign.pack2 + ele.skillAssign.basic});
+        total.occuSkills += ele.skillAssign.occuSkills;
+        total.intSkills += ele.skillAssign.intSkills;
+        total.pack1Skills += ele.skillAssign.pack1Skills;
+        total.pack2Skills += ele.skillAssign.pack2Skills;
+        total.bonusSkills += ele.skillAssign.bunusSkills;
+    }
     var isOccuOver ='color: #dc3545';
     var isIntOver ='color: #dc3545';
     if (total.occuSkills < characterSheet.skillAssign.occuSkills){
@@ -1258,7 +1420,7 @@ function printSkillHelper(){
     } else {
         isIntOver = 'color: #28a745';
     }
-    $(".skill-helper").html(`<p><strong>信用評級範圍</strong>：${characterSheet.crFrom} - ${characterSheet.crTo}。<strong>職業技能</strong>：${ocSkills}。<br/><strong>職業技能點數</strong>：<span style="${isOccuOver}">${total.occuSkills} / ${characterSheet.skillAssign.occuSkills}</span>。<strong>興趣技能點數</strong>：<span style="${isIntOver}">${total.intSkills} / ${characterSheet.skillAssign.intSkills}</span>。</p>`);
+    $(".skill-helper").html(`<p><strong>信用評級範圍</strong>：${characterSheet.crFrom} - ${characterSheet.crTo}。<strong>職業技能</strong>：${ocSkills}。<br/><strong>職業技能點數</strong>：<span style="${isOccuOver}">${parseInt(total.occuSkills)} / ${parseInt(characterSheet.skillAssign.occuSkills)}</span>。<strong>興趣技能點數</strong>：<span style="${isIntOver}">${parseInt(total.intSkills)} / ${parseInt(characterSheet.skillAssign.intSkills)}</span>。</p>`);
 }
 $(document).ready(function () {
     $(".backstory-form-control").on("change", function(){
@@ -1271,18 +1433,11 @@ $(document).ready(function () {
             case "meaningful-locations-input" : entry = 'meaningfulLocations' ; break;
             case "treasured-possessions-input" : entry = 'treasuredPossessions' ;break;
             case "traits-input" : entry = 'traits' ; break;
-            case "injuries-and-scars-input" : entry = 'injuriesAndScars' ; break;
-            case "phobias-and-manias-input" : entry = 'phobiasAndManias' ; break;
-            case "arcan-tomes-spells-and-artifacts-input" : entry = 'arcaneTomesSpellsAndArtifacts' ; break;
-            case "encounters-with-strange-entities-input" : entry = 'encountersWithStrangeEntities' ; break;
             default : entry = 'bios' ;
         }
         characterSheet.backstory[entry] = $(this).val();
     })
     $("#equipment-input").on("change", function(){
         characterSheet.eqipments.possession = $(this).val();
-    })
-    $("#assets-input").on("change", function(){
-        characterSheet.eqipments.assetsContent =  $(this).val();
     })
 });
