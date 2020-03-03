@@ -708,8 +708,8 @@ var ocFilter={
     term: [],
 };
 $(document).ready(function(){
-    var ageSlider = document.getElementById('cr-input');
-    noUiSlider.create(ageSlider, {
+    var crSlider = document.getElementById('cr-input');
+    noUiSlider.create(crSlider, {
         start: [0,99],
         step: 1,
         snap: true,
@@ -733,8 +733,8 @@ $(document).ready(function(){
         }
     });
     ageSlider.noUiSlider.on('slide' ,function(){
-        ocFilter.crFrom = Math.floor(ageSlider.noUiSlider.get()[0]);
-        ocFilter.crTo = Math.floor(ageSlider.noUiSlider.get()[1]);
+        ocFilter.crFrom = Math.floor(crSlider.noUiSlider.get()[0]);
+        ocFilter.crTo = Math.floor(crSlider.noUiSlider.get()[1]);
         occuFilter();
     });
 });
@@ -782,8 +782,8 @@ function occuFilter(filter=ocFilter){
             }
             if(fit){
                 filteredOccu.push(item);
-                filteredOccu = filteredOccu.filter(item=>item.crFrom>=filter.crFrom);
-                filteredOccu = filteredOccu.filter(item=>item.crTo<=filter.crTo);
+                filteredOccu = filteredOccu.filter(item=>item.crTo>=filter.crFrom);
+                filteredOccu = filteredOccu.filter(item=>item.crFrom<=filter.crTo);
             }
     });
     printOccuTable();
