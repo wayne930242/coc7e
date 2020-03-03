@@ -10,7 +10,6 @@ var characterSheetTemp = {//角色數值暫存
     pow: 0,
     edu: 0,
 }};
-// ANCHOR charachterSheet
 var characterSheet = {//角色卡
     name: '',
     occupation: '',
@@ -47,8 +46,8 @@ var characterSheet = {//角色卡
         bonusSkills: 0,
     },
     crFrom: 0,
-    crTo: 99,
-    skill: [],
+    crTo: 0,
+    skill:[],
     weapons:{},
     eqipments:{
         cash: 0 ,
@@ -1221,6 +1220,9 @@ function assignSkills(){
                     cash = r.cash[1] ? level * r.cash[0] : r.cash[0] ;
                     assets = r.assets[1] ? level * r.assets[0] : r.assets[0] ;
                     c = [spendingLevel ,cash , assets];
+                    characterSheet.eqipments.cash = cash;
+                    characterSheet.eqipments.assets = assets;
+                    characterSheet.eqipments.spendinglv = spendingLevel;
                 }
                 printCRDetails(c);
             }
@@ -1278,11 +1280,192 @@ $(document).ready(function () {
             default : entry = 'bios' ;
         }
         characterSheet.backstory[entry] = $(this).val();
-    })
+    });
     $("#equipment-input").on("change", function(){
         characterSheet.eqipments.possession = $(this).val();
-    })
+        $(".print-possession").html($(this).val());
+    });
     $("#assets-input").on("change", function(){
         characterSheet.eqipments.assetsContent =  $(this).val();
-    })
+        $(".print-assetsContent").html($(this).val());
+    });
 });
+var weaponsCore = weaponsCoreRaw.filter(item => item[era]);
+var weaponIndex = 0;
+$(document).ready(function () {
+    $(".weapon-card-container").on("click", ".weapon-type", function(){
+        var type = $(this).text();
+        $(this).parents(".dropdown").find(".dropdown-toggle").html(type);
+        $(this).parents(".dropdown").find(".dropdown-toggle").removeClass("btn-outline-secondary");
+        $(this).parents(".dropdown").find(".dropdown-toggle").addClass("btn-secondary");
+        $(this).parents(".weapon-table").find(".dropdown-toggle-select").html('細項');
+        $(this).parents(".weapon-table").find(".weapon-skill").html('');
+        $(this).parents(".weapon-table").find(".weapon-damage").html('');
+        $(this).parents(".weapon-table").find(".weapon-range").html('');
+        $(this).parents(".weapon-table").find(".weapon-attack").html('');
+        $(this).parents(".weapon-table").find(".weapon-ammo").html('');
+        $(this).parents(".weapon-table").find(".weapon-mal").html('');
+        wps = weaponsCore.filter(item => item.type == type);
+        $(this).parents(".weapon-table").find(".weapon-select").html('');
+        for (let wp of wps){
+            $(this).parents(".weapon-entry-1").find(".weapon-select").append(`<div class="dropdown-item weapon">${wp.name}</div>`);
+        }
+    })
+    $(".weapon-card-container").on("click", ".weapon", function(){
+        var w = $(this).text();
+        var num = $(this).parents(".card-body").attr("data-num")? $(this).parents(".card-body").attr("data-num"):0;
+        $(this).parents(".dropdown").find(".dropdown-toggle").removeClass("btn-outline-secondary");
+        $(this).parents(".dropdown").find(".dropdown-toggle").addClass("btn-secondary");
+        $(this).parents(".dropdown").find(".dropdown-toggle").html(w);
+        for (let wp of weaponsCore){
+            if(wp.name == w){
+                var s = wp.subskill? wp.skill+ "（" + wp.subskill + "）": wp.skill;
+                $(this).parents(".weapon-table").find(".weapon-skill").html(`<strong>技能 </strong>${s}`);
+                $(this).parents(".weapon-table").find(".weapon-damage").html(`<strong>傷害 </strong>${wp.damage}`);
+                $(this).parents(".weapon-table").find(".weapon-range").html(`<strong>範圍 </strong>${wp.range}`);
+                $(this).parents(".weapon-table").find(".weapon-attack").html(`<strong>攻擊 </strong>${wp.attack}`);
+                $(this).parents(".weapon-table").find(".weapon-ammo").html(`<strong>彈藥 </strong>${wp.ammo}`);
+                $(this).parents(".weapon-table").find(".weapon-mal").html(`<strong>故障 </strong>${wp.malfunction}`);
+            }
+        }
+        characterSheet.weapons[num] = w;
+    })
+    $(".weapon-card-container").on("click", ".add-weapon-entry", function () {
+        $(this).parents(".weapon-card").after(`
+            <div class="card weapon-card">
+                <div class="card-body" data-num="${weaponIndex}">
+                    <span class="remove-this-entry"><i class="fas fa-minus-circle"></i></span>
+                    <table class="table weapon-table">
+                        <tbody>
+                            <tr class="weapon-entry-1">
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">分類</button>
+                                        <div class="dropdown-menu">
+                                            <div class="dropdown-item weapon-type">常規武器</div>
+                                            <div class="dropdown-item weapon-type">手槍</div>
+                                            <div class="dropdown-item weapon-type">步槍</div>
+                                            <div class="dropdown-item weapon-type">突擊步槍</div>
+                                            <div class="dropdown-item weapon-type">衝鋒槍</div>
+                                            <div class="dropdown-item weapon-type">機關槍</div>
+                                            <div class="dropdown-item weapon-type">爆炸物和重武器</div>
+                                        </div>
+                                    </div>
+                            </td>
+                            <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-select btn-sm" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">細項</button>
+                                        <div class="dropdown-menu weapon-select">
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="weapon-skill"></td>
+                                <td class="weapon-damage"></td>
+                            </tr>
+                            <tr class="weapon-entry-2">
+                                <td class="weapon-range"></td>
+                                <td class="weapon-attack"></td>
+                                <td class="weapon-ammo"></td>
+                                <td class="weapon-mal"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <span class="add-weapon-entry"><i class="fas fa-plus-circle"></i></span>
+                </div>
+            </div>
+            `);
+        weaponIndex++;
+    });
+    $(".weapon-card-container").on("click", ".remove-this-entry", function () {
+        var num = $(this).parents(".card-body").attr("data-num") ? $(this).parents(".card-body").attr("data-num"):0 ;
+        characterSheet.weapons[num] = '';
+        $(this).parents(".weapon-card").remove();
+    });
+});
+var uploadedAvatar = '';
+$("document").ready(function() {
+    $('#avatar-upload').on("change", function() {
+      var $files = $(this).get(0).files;
+      var formData = new FormData();
+      formData.append("image", $files[0]);
+      if ($files.length) {
+        // Reject big files
+        if ($files[0].size > $(this).data("max-size") * 1024) {
+          console.log("Please select a smaller file");
+          return false;
+        }
+  
+        var apiUrl = 'https://api.imgur.com/3/image';
+        var apiKey = 'c9a11bd36c9482a';
+        var settings = {
+          async: true,
+          crossDomain: true,
+          url: apiUrl,
+          method: "POST",
+          datatype: "json",
+          headers: {
+            Authorization: "Client-ID " + apiKey
+          },
+          processData: false,
+          contentType: false,
+          data: formData,
+          beforeSend: function() {
+            console.log("uploading...");
+          },
+          success: function(res) {
+            $('.uploaded-avatar').append('<img src="' + res.data.link + '" width="100%">');
+            uploadedAvatar = res.data.link;
+          },
+          error: function() {
+            alert("upload failed");
+          }
+        }
+        $.ajax(settings).done(function(res) {
+          console.log("Done");
+        });
+      }
+    });
+  });
+$(document).ready(function () {
+    $(".gender-input").on("change", function(){
+        characterSheet.gender = $(this).val();
+    });
+    $(".name-input").on("change", function(){
+        characterSheet.name = $(this).val();
+    });
+    $(".birth-input").on("change", function(){
+        characterSheet.birth = $(this).val();
+    });
+    $(".residence-input").on("change", function(){
+        characterSheet.residence = $(this).val();
+    });
+    $(".export-btn").on("click", function(){
+        var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(characterSheet));
+        console.log(dataStr);
+        var dt = new Date();
+        $("<a />", {
+            "href": dataStr,
+            "download": `wayneh-tw-coc7e-${dt.getTime()}.json`
+        }).appendTo('body').click(function(){
+            $(this).remove();
+        })[0].click();
+    });
+    $(".import-btn").on("change", function(){
+        var reader = new FileReader();
+        reader.onload = onReaderLoad;
+        reader.readAsText(event.target.files[0]);
+    });
+    $(".simp-character-btn").on("click", function(){
+        printSimpCharacter();
+    });
+});
+function onReaderLoad(event){
+    characterSheet = JSON.parse(event.target.result);
+    printSimpCharacter();
+}
+function printSimpCharacter(){
+    $(".simp-character-sheet").html(`
+        <div><strong>${characterSheet.name}</strong>，${characterSheet.occupation}，${characterSheet.age} 歲</div>
+        
+    `)
+}

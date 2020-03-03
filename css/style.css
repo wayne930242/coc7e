@@ -49,3 +49,30 @@ h2{
 .backstory-form-control{
     width: 100%;
 }
+/* 不知道為什麼不管用 */
+.add-weapon-entry:hover,.add-weapon-entry:focus{
+    color: #28a745;
+}
+.remove-this-entry, .add-weapon-entry{
+    float: right;
+    cursor: pointer;
+}
+.remove-this-entry:hover,.remove-this-entry:focus{
+    color: #dc3545;
+}
+.first-card-body{
+    border-style:none;
+}
+.not-a-card{
+    min-height: 0;
+    padding: 0;
+}
+.export-btn{
+    margin: 10px;
+}
+.card{
+    margin-bottom: 2rem;
+}
+.print{
+    display:none;
+}

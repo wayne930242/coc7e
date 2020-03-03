@@ -30,19 +30,31 @@
      <link href="./css/hover-min.css" rel="stylesheet">
      <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,500,700|Noto+Serif+TC:400,700&display=swap" rel="stylesheet">
      <link href="./css/all.css" rel="stylesheet">
-     <script src="./js/all.js"></script> 
+     <script src="./js/all.js"></script>
      <link href="./css/nouislider.css" rel="stylesheet">
      <script src="./js/nouislider.js"></script> 
      <script src="./js/occupations.js"></script>
      <script src="./js/skills.js"></script>
      <script src="./js/rpgbasic.js"></script>
      <script src="./js/equipments.js"></script>
+     <script src="./js/name/first-names.js"></script>
+     <script src="./js/name/names.js"></script>
+     <script src="./js/name/middle-names.js"></script>
+     <script src="./node_modules/jspdf/dist/jspdf.min.js"></script>
+     <script src="./js/generateSPDF.js"></script>
      <script src="./js/corecal.js"></script>
-     <link rel="stylesheet" href="./css/style.css">
+     <link href="./css/style.css" rel="stylesheet">
+     <link href="./css/print-cs.css" rel="stylesheet" media="print">
+     <!-- # Licence
+     jsPDF (MIT):
+     * (c) 2010-2016 James Hall, https://github.com/MrRio/jsPDF
+     * (c) 2015-2018 yWorks GmbH, http://www.yworks.com/
+     
+     noUiSlider (MIT): https://refreshless.com/nouislider/
+     -->
 </head>
 <body>
-<div class="container-sm">
-
+<div class="container-sm non-print" style="margin-top: 3rem;">
      <div class="row">
           <div class="col-sm-12">
                <h1>CoC 7 便利創角  <span class="badge badge-secondary">beta</span></h1>
@@ -439,7 +451,21 @@
           <div class="col-sm-12">
                <h2>6. 裝備調查員</h2>
           </div>
-          <div class="col-sm-6">
+          <div class="col-sm-12">
+               <div class="card">
+                    <div class="card-body">
+                         <h4 class="card-title">武器 </h4>
+                         <div class="card-text weapon-card-container">
+                              <div class="card weapon-card first-card-body">
+                                   <div class="card-body not-a-card">
+                                        <span class="add-weapon-entry"><i class="fas fa-plus-circle"></i></span>
+                                   </div>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+          </div>
+          <div class="col-sm-4">
                <div class="card">
                     <div class="card-body">
                          <h4 class="card-title">信用評級</h4>
@@ -455,7 +481,7 @@
                     </div>
                </div>
           </div>
-          <div class="col-sm-6">
+          <div class="col-sm-4">
                <div class="card">
                     <div class="card-body">
                          <h4 class="card-title">隨身物品</h4>
@@ -464,6 +490,8 @@
                          </div>
                     </div>
                </div>
+          </div>
+          <div class="col-sm-4">
                <div class="card">
                     <div class="card-body">
                          <h4 class="card-title">資產</h4>
@@ -477,13 +505,82 @@
      <div class="row">
           <div class="col-sm-12">
                <h2>7. 完成細節</h2>
+               <table class="table">
+                    <thead>
+                         <tr>
+                              <th width="25%">性別</th>
+                              <th width="25%">姓名</th>
+                              <th width="25%">出生地</th>
+                              <th width="25%">居住地</th>
+                         </tr>
+                    </thead>
+                    <tbody>
+                         <tr>
+                              <td><input class="form-control gender-input" type="text"></td>
+                              <td><input class="form-control name-input" type="text"></td>
+                              <td><input class="form-control birth-input" type="text"></td>
+                              <td><input class="form-control residence-input" type="text"></td>
+                         </tr>
+                         <tr>
+                              <td colspan="2"><strong>上傳頭像</strong></td>
+                              <td colspan="2"><strong>生成頭像</strong></td>
+                         </tr>
+                         <tr>
+                              <td colspan="2">
+                                   <div class="input-group mb-3">
+                                        <div class="custom-file">
+                                             <label class="btn btn-primary">選擇檔案
+                                                  <input type="file" class="custom-file-input" id="avatar-upload" hidden>
+                                             </label>
+                                        </div>
+                                   </div>
+                              </td>
+                              <td colspan="2" class="generated-avatar">
+                                   <button type="button" class="btn btn-primary gen-avatar" disabled>生成</button>
+                              </td>
+                         </tr>
+                         <tr>
+                              <td colspan="2" class="uploaded-avatar"></td>
+                              <td colspan="2" class="generated-avatar"></td>
+                         </tr>
+                    </tbody>
+               </table>
           </div>
-     </div>
-     <div class="row">
           <div class="col-sm-12">
-               <h2>8. 匯出角色卡</h2>
+               <h2>8. 匯出角色卡
+               </h2>
+               <button type="button" class="simp-character-btn btn btn-info" style="margin:10px">簡易角色卡</button>
+               <button type="button" class="export-btn btn btn-info" style="margin:10px">匯出 JSON</button>
+               <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#confirm-import" style="margin:10px">匯入 JSON</button>
+               <div class="modal fade" id="confirm-import" tabindex="-1" role="dialog" aria-labelledby="匯入 JSON 確認框" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                         <div class="modal-content">
+                         <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">繼續？</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                              </button>
+                         </div>
+                         <div class="modal-body">
+                              匯入 JSON 將導致目前的資料遺失，要繼續嗎？
+                         </div>
+                         <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                              <label class="btn btn-danger">繼續匯入
+                                   <input type="file" class="custom-file-input import-btn" hidden>
+                              </label>
+                         </div>
+                         </div>
+                    </div>
+               </div>
+               <div class="card">
+                    <div class="card-body simp-character-sheet">
+                    </div>
+               </div>
           </div>
      </div>
+</div>
+<div class="print simp-character-sheet">
 </div>
 </body>
 </html>

@@ -1,0 +1,15 @@
+@media print{
+    .non-print{
+        display:none;
+    }
+    .print{
+        display:initial;
+    }
+  }
+@page {
+    margin:1cm;
+    size:A4;
+}
+.print {
+    page-break-after:always;    /*print分頁面*/
+}
