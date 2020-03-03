@@ -1439,6 +1439,36 @@ $(document).ready(function () {
     $(".residence-input").on("change", function(){
         characterSheet.residence = $(this).val();
     });
+    $("#personal-description-input").on("change", function(){
+        characterSheet.backstory.personalDescription = $(this).val();
+    });
+    $("#ideology-beliefs-input").on("change", function(){
+        characterSheet.backstory.ideologyOrBeliefs = $(this).val();
+    });
+    $("#significant-people-input").on("change", function(){
+        characterSheet.backstory.significantPeople = $(this).val();
+    });
+    $("#meaningful-locations-input").on("change", function(){
+        characterSheet.backstory.meaningfulLocations = $(this).val();
+    });
+    $("#treasured-possessions-input").on("change", function(){
+        characterSheet.backstory.treasuredPossessions = $(this).val();
+    });
+    $("#traits-input").on("change", function(){
+        characterSheet.backstory.traits = $(this).val();
+    });
+    $("#injuries-and-scars-input").on("change", function(){
+        characterSheet.backstory.injuriesAndScars = $(this).val();
+    });
+    $("#phobias-and-manias-input").on("change", function(){
+        characterSheet.backstory.phobiasAndManias = $(this).val();
+    });
+    $("#arcan-tomes-spells-and-artifacts-input").on("change", function(){
+        characterSheet.backstory.arcaneTomesSpellsAndArtifacts = $(this).val();
+    });
+    $("#bio-input").on("change", function(){
+        characterSheet.backstory.bio = $(this).val();
+    });
     $(".export-btn").on("click", function(){
         var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(characterSheet));
         console.log(dataStr);
@@ -1464,8 +1494,67 @@ function onReaderLoad(event){
     printSimpCharacter();
 }
 function printSimpCharacter(){
+    var skills = [];
+    for (let e of characterSheet.skill){
+        e = e[0].length == 1 ? e[0] : e[0][0]+"（"+e[0][1]+"）";
+        skills.push(e + ' ' +e[1][0] + '%');
+    }
+    var fighting = '';
+    var backstory= '';
+    var a = ['personalDescription','ideologyOrBeliefs','significantPeople','meaningfulLocations','treasuredPossessions','traits','injuriesAndScars','phobiasAndManias','arcaneTomesSpellsAndArtifacts','encountersWithStrangeEntities'];
+    for (let e of a){
+        if (characterSheet.backstory[e]){
+            backstory += `<li>${characterSheet.backstory[e]}</li>`;
+        }
+        
+    }
+    var bio = "<p>" + characterSheet.backstory.bio + "</p>";
     $(".simp-character-sheet").html(`
         <div><strong>${characterSheet.name}</strong>，${characterSheet.occupation}，${characterSheet.age} 歲</div>
-        
+        <div class="status">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>STR</td>
+                        <td>${characterSheet.str}</td>
+                        <td>CON</td>
+                        <td>${characterSheet.con}</td>
+                        <td>DEX</td>
+                        <td>${characterSheet.dex}</td>
+                        <td>SIZ</td>
+                        <td>${characterSheet.siz}</td>
+                        <td>INT</td>
+                        <td>${characterSheet.int}</td>
+                    </tr>
+                    <tr>
+                        <td>APP</td>
+                        <td>${characterSheet.app}</td>
+                        <td>POW</td>
+                        <td>${characterSheet.pow}</td>
+                        <td>EDU</td>
+                        <td>${characterSheet.edu}</td>
+                        <td>SAN</td>
+                        <td>${characterSheet.pow}</td>
+                        <td>HP</td>
+                        <td>${characterSheet.hp}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">傷害加成：${characterSheet.db}</td>
+                        <td colspan="2">體格：${characterSheet.build}</td>
+                        <td colspan="2">移動：${characterSheet.mov}</td>
+                        <td colspan="2">幸運：${characterSheet.luck}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="cs-avatar"><img src="${uploadedAvatar}" width="100%"</div>
+        <div class="cs-fighting">${fighting}</div>
+        <div class="cs-skills">${skills.join("、")}</div>
+        <div class="cs-backstory">
+            <ul>
+                ${backstory}
+            </ul>
+        </div>
+        <div class="cs-bio">${bio}</div>
     `)
 }
