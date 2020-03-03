@@ -732,7 +732,7 @@ $(document).ready(function(){
             density: 10
         }
     });
-    ageSlider.noUiSlider.on('slide' ,function(){
+    crSlider.noUiSlider.on('slide' ,function(){
         ocFilter.crFrom = Math.floor(crSlider.noUiSlider.get()[0]);
         ocFilter.crTo = Math.floor(crSlider.noUiSlider.get()[1]);
         occuFilter();
