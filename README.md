@@ -9,6 +9,14 @@ npm start
 
 然後打開 http://localhost:8080 。
 
+## 發佈
+
+```
+npm run build
+```
+
+然後 commit 並 push 。
+
 ## 藍圖
 
 專案才剛開始，還有很多事情要做，可以看看我們的 [GitHub issues][issues] 頁面。
