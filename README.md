@@ -3,19 +3,17 @@
 ## 開發
 
 ```
-npm install --global serve
-serve .
+npm install
+npm start
 ```
 
-然後打開 http://localhost:5000 。
+然後打開 http://localhost:8080 。
 
-## TODO
+## 藍圖
 
 專案才剛開始，還有很多事情要做，可以看看我們的 [GitHub issues][issues] 頁面。
 
 [issues]: https://github.com/wayne930242/coc7e/issues
-
-## 藍圖
 
 ### 基本需求
 
