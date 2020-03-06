@@ -855,6 +855,7 @@ function occuSelect(x=''){
     $("#selectOccuTable").html(`<p class="desc card-text"><strong>${ocTerm}</strong>。${ocSkills}。<br/><strong>職業技能</strong>${ocAtt}${sps}，<strong>CR：</strong>${ocCR}。<br/><strong>備註</strong>：${ocNote}。</p><br><div id="" class="btn btn-primary occuTableToggle">確定</div>`);
     skillInit();
     assignSkills();
+    printSkillHelper();
 
 }
 // fix occu table
@@ -968,12 +969,12 @@ function basicCal(basic){
 }
 var countDD = 1;
 function printSkillTable(skill, sub, basic=1){
+    basicText = basic;
+    basic = basicCal(basic);
     var level = basic ;
     for(let ele of assignTable){
         if(ele.name == skill){basic = ele.basic};
     }
-    basicText = basic;
-    basic = basicCal(basic);
     var options = "";
     for (let obj of subskills){
         if(skill==obj.term){
@@ -1145,6 +1146,8 @@ $(document).ready(function () {
         $(this).hide();
     });
     $("#skill-assign, #occu-skill-assign").on("click", ".subskill-option" , function(){
+        var text = $(this).text();
+        $(this).parents(".input-group").find(".subskill-input").val(text);
         assignSkills();
         printSkillHelper()
     })
@@ -1154,7 +1157,7 @@ $(document).ready(function () {
     });
     $("#skill-assign, #occu-skill-assign").on("change", ".bonus-input" ,function(){
         assignSkills();
-        printSkillHelper()
+        printSkillHelper();
     });
 });
 var total = {
@@ -1175,12 +1178,13 @@ function assignSkills(){
     characterSheet.skill = [];
     $(".skill-entry").each(function(){
         var basic = $(this).attr("data-basic")?parseInt($(this).attr("data-basic")):0;
-        var level = $(this).find(".level-input").val()?$(this).find(".level-input").val():basic;
-        var occu = $(this).find(".level-input").hasClass("occu-input");
+        var level = $(this).find(".level-input").val()?parseInt($(this).find(".level-input").val()):basic;
+        if(level <= basic){return;}
+        var occu = $(this).find(".level-input").hasClass("occu-input");//boolen
         var occuAssign = 0;
         var intAssign = 0;
         var arr = [];
-        var bonus = $(this).find(".bonus-input").val()? $(this).find(".bonus-input").val() : 0 ;
+        var bonus = $(this).find(".bonus-input").val()?parseInt($(this).find(".bonus-input").val()) : 0 ;
         total.bunusSkills += bonus;
         if($(this).find(".skill-name").hasClass(".subskill-table")){
             var skill = $(this.find(".skill-name").text());
@@ -1215,7 +1219,7 @@ function assignSkills(){
             c = [];
             for (let r of creditRatingTable[era]){
                 if(r.range[0] <= parseInt(level) + parseInt(bonus) && parseInt(level) + parseInt(bonus) <= r.range[1]){
-                    display =`${parseInt(level) + parseInt(bonus)}` + "（" + r.rating + "）" ;
+                    display =`${parseInt(level) + parseInt(bonus)}` + " <sub>" + r.rating + "</sub>" ;
                     spendingLevel = r.spendingLevel;
                     cash = r.cash[1] ? level * r.cash[0] : r.cash[0] ;
                     assets = r.assets[1] ? level * r.assets[0] : r.assets[0] ;
@@ -1229,7 +1233,7 @@ function assignSkills(){
         } else {
             for (let r of skillToRating){
                 if(r.range[0] <= parseInt(level) + parseInt(bonus) && parseInt(level) + parseInt(bonus) <= r.range[1]){
-                    display =`${parseInt(level) + parseInt(bonus)}` + "（" + r.rating + "）";
+                    display =`${parseInt(level) + parseInt(bonus)}` + " <sub>" + r.rating + "</sub>";
                 }
             }
         }
@@ -1394,7 +1398,6 @@ $("document").ready(function() {
           console.log("Please select a smaller file");
           return false;
         }
-  
         var apiUrl = 'https://api.imgur.com/3/image';
         var apiKey = 'c9a11bd36c9482a';
         var settings = {
@@ -1421,7 +1424,7 @@ $("document").ready(function() {
           }
         }
         $.ajax(settings).done(function(res) {
-          console.log("Done");
+            console.log("Done");
         });
       }
     });
@@ -1485,7 +1488,7 @@ $(document).ready(function () {
         reader.onload = onReaderLoad;
         reader.readAsText(event.target.files[0]);
     });
-    $(".simp-character-btn").on("click", function(){
+    $(".export").on("click", ".simp-character-btn", function(){
         printSimpCharacter();
     });
 });
