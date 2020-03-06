@@ -1,0 +1,35 @@
+{
+  "name": "coc7e",
+  "version": "0.0.1",
+  "description": "CoC 7 便利創角",
+  "main": "./src/main.js",
+  "dependencies": {
+    "jspdf": "^1.5.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.7",
+    "@babel/preset-env": "^7.8.7",
+    "babel-loader": "^8.0.6",
+    "webpack": "^4.42.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
+  },
+  "scripts": {
+    "start": "webpack-dev-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wayne930242/coc7e.git"
+  },
+  "keywords": [
+    "CoC",
+    "TRPG"
+  ],
+  "author": "wayne930242",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/wayne930242/coc7e/issues"
+  },
+  "homepage": "https://github.com/wayne930242/coc7e#readme"
+}
