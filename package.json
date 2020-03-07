@@ -4,7 +4,12 @@
   "description": "CoC 7 便利創角",
   "main": "./src/main.js",
   "dependencies": {
-    "jspdf": "^1.5.3"
+    "@fortawesome/fontawesome-free": "^5.12.1",
+    "bootstrap": "^4.4.1",
+    "hover.css": "^2.3.2",
+    "jquery": "^3.4.1",
+    "jspdf": "^1.5.3",
+    "popper.js": "^1.16.1"
   },
   "devDependencies": {
     "@babel/core": "^7.8.7",
