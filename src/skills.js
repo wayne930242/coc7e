@@ -1,4 +1,4 @@
-var skillsTrans = [{//技能翻譯表
+export const skillsTrans = [{//技能翻譯表
     skill: 'Accounting',
     skillZhTw: '會計'
 }, {
@@ -257,7 +257,8 @@ var skillsTrans = [{//技能翻譯表
     skill: 'Zoology',
     skillZhTw: '動物學'
 }];
-var skills = {//年代技能表
+
+export const skills = {//年代技能表
     modern: [{
         skillZhTw: '會計',
         basic: 5,
@@ -891,7 +892,8 @@ var skills = {//年代技能表
         common: false
     }]
 };
-var subskills=[
+
+export const subskills=[
     {term: '藝術/工藝',
         sub:[
             {

@@ -1,4 +1,4 @@
-var middleName = [
+export const middleName = [
 "Aaron"
 ,
 "Ab"

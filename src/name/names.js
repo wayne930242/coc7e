@@ -1,4 +1,4 @@
-var names = [
+export const names = [
 "Aaberg"
 ,
 "Aalst"

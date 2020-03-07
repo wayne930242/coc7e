@@ -1,4 +1,4 @@
-var places = [
+export const places = [
 "Aaronsburg"
 ,
 "Abbeville"

@@ -2,8 +2,9 @@ const path = require('path');
 
 module.exports = {
   mode: 'production',
+  devtool: 'source-map',
   entry: {
-    bundle: path.resolve(__dirname, 'src/main.js'),
+    bundle: path.resolve(__dirname, 'src/corecal.js'),
   },
   output: {
     publicPath: '/js',

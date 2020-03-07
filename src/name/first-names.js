@@ -1,4 +1,4 @@
-var firstNames = [
+export const firstNames = [
     "Aaren"
     ,
     "Aarika"

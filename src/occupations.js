@@ -1,4 +1,4 @@
-var occu= [{
+export const occu= [{
     term: '會計師',
     STR: 0,
     CON: 0,

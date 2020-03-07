@@ -1,3 +1,9 @@
+import { dice, sum, mult } from './rpgbasic';
+import { occu } from './occupations';
+import { weaponsCoreRaw } from './equipments';
+import { skillTrans, skills, subskills } from './skills';
+import { firstNames, middleName, names, places } from './name';
+
 var characterSheetTemp = {//角色數值暫存
     //角色卡 JSON
     attributeKeyIn:{
@@ -307,6 +313,7 @@ function updateAtt(x){// 處理購點屬性
         $("#selector_att").append(`<option value="attributeKeyIn">購點</option>`);
     }
 }
+window.updateAtt = updateAtt;
 function selectAtt(x){// 選擇器
     if(x=='empty'){
         $("#data_box_att").html('');
@@ -355,6 +362,7 @@ function selectAtt(x){// 選擇器
         ageMod();
     }
 }
+window.selectAtt = selectAtt;
 // TODO 自動切換到下一個 input
 $(document).ready(function () {
     $('.key-in-input').keyup(function(e){   
@@ -657,6 +665,7 @@ function selectVersion(x){
     era = x;
     skillInit();
 }
+window.selectVersion = selectVersion;
 var occupationSkills = [];
 var bonusSkills= [];
 var packSkills= [];
@@ -670,7 +679,7 @@ $(document).ready(function () {
 });
 function printOccuTable(){
     $("#occupationsTable > tbody").html('');
-    for (oc of filteredOccu){
+    for (let oc of filteredOccu){
         var no = oc.note ? oc.note : '';
         var da = [];
         if(oc.EDU!=4){
@@ -743,6 +752,7 @@ function updateOcFilterTerm(x){
     ocFilter.term = Array.from(keyIn);
     occuFilter();
 }
+window.updateOcFilterTerm = updateOcFilterTerm;
 var fit = true;
 function occuFilter(filter=ocFilter){
     var conditions={era1920: era=='era1920',modern: era=='modern', gaslight: era=='gaslight'};
@@ -906,7 +916,8 @@ function skillInit (array=skills[era]){
     `);
     $("#skill-assign").html('');
     assignTable=[];
-    for (obj of array){
+    array = array || [];
+    for (let obj of array){
         var name= typeof(obj.skillZhTw)==="string" ? obj.skillZhTw : obj.skillZhTw[0] + '（' + obj.skillZhTw[1] + '）';
         var array = typeof(obj.skillZhTw)==="string" ? [obj.skillZhTw] : obj.skillZhTw
         var occu= false;

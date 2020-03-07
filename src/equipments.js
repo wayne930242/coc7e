@@ -1,4 +1,4 @@
-var weaponsCoreRaw = [{
+export const weaponsCoreRaw = [{
     name: '指虎',
     skill: '戰鬥',
     subskill: '鬥毆',
