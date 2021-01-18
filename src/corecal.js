@@ -451,7 +451,9 @@ function print_data_box_app_mod(){
         $("#eduForMod").html(`${edu}`);
         $("#isEduMod").html(`${isMod('edu')}`);
         $("#eduHistory").html(`${eduDepHisExp()}`);
-        $("#eduDice").html(`${edu_dice()}`);
+        $("#eduDice")
+          .html(`${edu_dice()}`)
+          .on('click', edu_dep);
         $("#sanForMod").html(`${pow}`);
         $("#hpForMod").html(`${characterSheet.hp}`);
         $("#dbForMod").html(`${characterSheet.db}`);
@@ -462,7 +464,9 @@ function print_data_box_app_mod(){
         $("#isMovMod").html(`${isMovMod()}`);
         $("#luckForMod").html(`<sub>3D6x5</sub>`);
         $("#luckHistory").html(`${luckHistory()}`);
-        $("#luckDice").html(`${luckDice()}`);
+        $("#luckDice")
+          .html(`${luckDice()}`)
+          .on('click', genLuck);
         $("#mpForMod").html(`${characterSheet.mp}`);
     }
 }
@@ -470,14 +474,16 @@ var luckArray=[];
 var luckTatal=1;
 /* --- deisplay dice roll? --- */
 function luckDice(){
-    return `<span class="hvr-wobble-vertical pointer" style="display: inline-block" onclick="genLuck()"><i class="fas fa-dice"></i></span>`;
+    return `<span class="hvr-wobble-vertical pointer" style="display: inline-block"><i class="fas fa-dice"></i></span>`;
 }
 function genLuck(){//生成幸運
     luck_dice();
     if(luckArray.length<luckTatal){
         $("#luckForMod").html(`${characterSheet.luck}`);
         $("#luckHistory").html(`${luckHistory()}`);
-        $("#luckDice").html(`${luckDice()}`);
+        $("#luckDice")
+          .html(`${luckDice()}`)
+          .on('click', genLuck);
     } else {
         $("#luckForMod").html(`${characterSheet.luck}`);
         $("#luckHistory").html(`${luckHistory()}`);
@@ -502,7 +508,7 @@ var eduDiceHis=[];
 var eduDepHis=[];
 function edu_dice(){
     if(eduDiceHis.length<eduDepDice){
-        return `<div class="hvr-wobble-vertical pointer" style="display: inline-block" onclick="edu_dep()"><i class="fas fa-dice"></i></div>`;
+        return `<div class="hvr-wobble-vertical pointer" style="display: inline-block"><i class="fas fa-dice"></i></div>`;
     }
     else{
         modCheck.eduDep=true;
@@ -515,7 +521,9 @@ function edu_dep(){
     $("#eduForMod").html(`${edu}`);
     $("#isEduMod").html(`${isMod('edu')}`);
     $("#eduHistory").html(`${eduDepHisExp()}`);
-    $("#eduDice").html(`${edu_dice()}`);
+    $("#eduDice")
+      .html(`${edu_dice()}`)
+      .on('click', edu_dep);
 }
 function eduDiceRoll(){
     var d = dice(1,100);
@@ -529,7 +537,7 @@ function eduDepHisExp(){
     var diceHisDisplay='';
     var depHisDisplay='';
     if(eduDiceHis.length>0){
-        for(count =0;count<eduDiceHis.length;count++){
+        for(let count =0;count<eduDiceHis.length;count++){
             if (eduDepHis[count]==0){
                 diceHisDisplay = `${eduDiceHis[count]}`;
                 depHisDisplay = `${eduDepHis[count]}`;
@@ -844,7 +852,7 @@ function occuSelect(x=''){
                     if(item['INT'] != 0){da.push('INT');a.push(characterSheet.int);};
                 }
                 sp= Math.max(...a);
-                if(oc.EDU==4){
+                if(item.EDU==4){
                     ocAtt = `EDU x4`;
                     sp = characterSheet['edu'] * 4;
                 } else {
@@ -1227,13 +1235,13 @@ function assignSkills(){
         }
         var display = '';
         if ( arr[0] == "信用評級") {
-            c = [];
+            let c = [];
             for (let r of creditRatingTable[era]){
                 if(r.range[0] <= parseInt(level) + parseInt(bonus) && parseInt(level) + parseInt(bonus) <= r.range[1]){
                     display =`${parseInt(level) + parseInt(bonus)}` + " <sub>" + r.rating + "</sub>" ;
-                    spendingLevel = r.spendingLevel;
-                    cash = r.cash[1] ? level * r.cash[0] : r.cash[0] ;
-                    assets = r.assets[1] ? level * r.assets[0] : r.assets[0] ;
+                    let spendingLevel = r.spendingLevel;
+                    let cash = r.cash[1] ? level * r.cash[0] : r.cash[0] ;
+                    let assets = r.assets[1] ? level * r.assets[0] : r.assets[0] ;
                     c = [spendingLevel ,cash , assets];
                     characterSheet.eqipments.cash = cash;
                     characterSheet.eqipments.assets = assets;
@@ -1320,7 +1328,7 @@ $(document).ready(function () {
         $(this).parents(".weapon-table").find(".weapon-attack").html('');
         $(this).parents(".weapon-table").find(".weapon-ammo").html('');
         $(this).parents(".weapon-table").find(".weapon-mal").html('');
-        wps = weaponsCore.filter(item => item.type == type);
+        let wps = weaponsCore.filter(item => item.type == type);
         $(this).parents(".weapon-table").find(".weapon-select").html('');
         for (let wp of wps){
             $(this).parents(".weapon-entry-1").find(".weapon-select").append(`<div class="dropdown-item weapon">${wp.name}</div>`);

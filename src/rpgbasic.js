@@ -1,7 +1,7 @@
 // 骰子函數 dice(x,y)=xDy
 export function dice(x,y) {
     let result = 0 ;
-    for(count=0;count<x;count++){
+    for( let count=0;count<x;count++ ){
         result+=Math.floor(Math.random()*y)+1;
     }
     return result;
